@@ -1,0 +1,101 @@
+<div class="box info-bar">
+  <div class="row">
+    <div class="col-md-12 col-lg-4 products-showing">
+      Showing
+      <strong
+        ><%= productsPerPage<=productsCount?productsPerPage:productsCount
+        %></strong
+      >
+      of <strong><%= productsCount %></strong> products
+    </div>
+    <div class="col-md-12 col-lg-7 products-number-sort">
+      <form
+        class="
+          form-inline
+          d-block d-lg-flex
+          justify-content-between
+          flex-column flex-md-row
+        "
+      >
+        <div class="products-number">
+          <strong>Show</strong>
+          <%if(productsPerPage==12) {%>
+          <a href="?productsPerPage=12" class="btn btn-primary btn-sm">12</a>
+          <%} else {%>
+          <a href="?productsPerPage=12" class="btn btn-outline-secondary btn-sm"
+            >12</a
+          >
+          <%}%> <%if(productsPerPage==24) {%>
+          <a href="?productsPerPage=24" class="btn btn-primary btn-sm">24</a>
+          <%} else {%>
+          <a href="?productsPerPage=24" class="btn btn-outline-secondary btn-sm"
+            >24</a
+          >
+          <%}%> <%if(productsPerPage===productsCount) {%>
+          <a href="?productsPerPage=all" class="btn btn-primary btn-sm">All</a>
+          <%} else {%>
+          <a
+            href="?productsPerPage=all"
+            class="btn btn-outline-secondary btn-sm"
+            >All</a
+          >
+          <%}%>
+
+          <span>products</span>
+        </div>
+        <div class="products-sort-by mt-2 mt-lg-0">
+          <strong>Sort by</strong>
+          <select name="sort-by" class="form-control">
+            <option>Price</option>
+            <option>Name</option>
+            <option>Sales first</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row products">
+  <%for(const product of products) {%> <%-include('./productBox.ejs',{product}
+  )%> <%}%>
+</div>
+<div class="pages">
+  <!-- khong biet nen xai loadMore hay khong, vi da co pagination -->
+  <%if(0){%>
+  <p class="loadMore">
+    <a
+      href="?productsPerPage=<%=+productsPerPage+10%>"
+      class="btn btn-primary btn-lg"
+      ><i class="fa fa-chevron-down"></i> Load more</a
+    >
+  </p>
+  <%}%>
+  <nav
+    aria-label="Page navigation example"
+    class="d-flex justify-content-center"
+  >
+    <% if (lastPage > 0) { %>
+    <ul class="pagination">
+      <% if (currentPage == 1) { %>
+      <li class="page-item"><a class="page-link">First</a></li>
+      <% } else { %>
+      <li><a href="?page=1" class="page-link">First</a></li>
+      <% } %> <% let i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1)
+      %> <% if (i !== 1) { %>
+      <li class="page-item"><a class="page-link">...</a></li>
+      <% } %> <% for (; i <= (Number(currentPage) + 4) && i <= lastPage; i++) {
+      %> <% if (i == currentPage) { %>
+      <li class="page-item active"><a class="page-link"><%= i %></a></li>
+      <% } else { %>
+      <li><a href="?page=<%= i %>" class="page-link"><%= i %></a></li>
+      <% } %> <% if (i == Number(currentPage) + 4 && i < lastPage) { %>
+      <li class="page-item"><a class="page-link">...</a></li>
+      <% } %> <% } %> <% if (currentPage == lastPage) { %>
+      <li class="page-item"><a class="page-link">Last</a></li>
+      <% } else { %>
+      <li><a href="?page=<%= lastPage %>" class="page-link">Last</a></li>
+      <% } %>
+    </ul>
+    <% } %>
+  </nav>
+</div>

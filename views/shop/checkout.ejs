@@ -1,0 +1,35 @@
+<%- include('../includes/head')%>
+</head>
+
+<body>
+    <!-- HEADER ============================================ -->
+    <%- include('../includes/header/header')%>
+
+    <!-- TOPAREA ============================================== -->
+    <div id="all">
+        <div id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- breadcrumb-->
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li aria-current="page" class="breadcrumb-item active">Checkout - Address</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- CHECKOUT TABLE ==================================== -->
+                    <div id="checkout" class="col-lg-9">
+                        <%- include('../includes/cart/checkoutTable')%>
+                    </div>
+
+                    <!-- ORDER SUMMARY ===================================== -->
+                    <div class="col-lg-3">
+                        <%- include('../includes/cart/orderSummary')%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%-include('../includes/footer/foot')%>
