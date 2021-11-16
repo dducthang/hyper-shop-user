@@ -16,8 +16,8 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                                     <li class="breadcrumb-item"><a href="#">Brand</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Nike</a></li>
-                                    <li aria-current="page" class="breadcrumb-item active">KD 14</li>
+                                    <li class="breadcrumb-item"><a href="#"><%=product.brand%></a></li>
+                                    <li aria-current="page" class="breadcrumb-item active"><%=product.name%></li>
                                 </ol>
                             </nav>
                         </div>
@@ -28,7 +28,7 @@
                             <%-include('../includes/sideBar/filterCard')%>
                         </div>
                         <div class="col-lg-9 order-1 order-lg-2">
-                            <%- include('../includes/bodyContent/itemInDetail')%>
+                            <%- include('../includes/bodyContent/itemInDetail', {product})%>
                         </div>
                     </div>
                 </div>

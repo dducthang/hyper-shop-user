@@ -32,7 +32,13 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getProductDetail = (req, res, next) => {
-  res.render('shop/productDetail');
+  const productId = req.params.productId;
+  Product.findById(productId).then(product=>{
+    res.render('shop/productDetail',{
+      product:product,
+      pageTitle: 'Product detail'
+    })
+  })
 };
 
 exports.getOrder = (req, res, next) => {
