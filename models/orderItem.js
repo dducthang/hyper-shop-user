@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderItemsSchema = new mongoose.Schema({
+const orderItemSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
@@ -18,6 +18,6 @@ const orderItemsSchema = new mongoose.Schema({
   isOrdered: Boolean, // false: trong gio hang; true: trong don hang -> khong bi nham lan neu sau nay tinh doanh thu
 });
 
-const OrderItems = mongoose.model('OrderItems', orderItemsSchema);
+const OrderItem = mongoose.model('OrderItem', orderItemSchema);
 
-module.exports = OrderItems;
+module.exports = OrderItem;
