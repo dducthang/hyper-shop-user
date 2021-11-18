@@ -51,6 +51,11 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+productSchema.methods.Description=function(){
+  const des = this.description;
+  return `Color of ${des.color}, has ${des.shoesHeight}, uses ${des.closureType}`;
+}
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
