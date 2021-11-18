@@ -48,54 +48,54 @@
           <select name="sort-by" class="form-control">
             <option>Price</option>
             <option>Name</option>
-            <option>Sales first</option>
+            <option>Release date</option>
+            <option>View count</option>
           </select>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="row products">
-  <%for(const product of products) {%> <%-include('./productBox.ejs',{product}
-  )%> <%}%>
+<div class="test">
+  <div class="products-pages">
+    <div class="row products">
+      <%for(const product of products) {%>
+      <%-include('./productBox.ejs',{product} )%> <%}%>
+    </div>
+    <div class="pages">
+      <nav
+        aria-label="Page navigation example"
+        class="d-flex justify-content-center"
+      >
+        <% if (lastPage > 0) { %>
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link">First</a></li>
+          <% let i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+          <% if (i !== 1) { %>
+          <li class="page-item"><a class="page-link">...</a></li>
+          <% } %> <% for (; i <= (Number(currentPage) + 4) && i <= lastPage;
+          i++) { %> <% if (i == currentPage) { %>
+          <li class="page-item active"><a class="page-link"><%= i %></a></li>
+          <% } else { %>
+          <li class="page-item">
+            <a class="page-link"><%= i %></a>
+          </li>
+          <% } %> <% if (i == Number(currentPage) + 4 && i < lastPage) { %>
+          <li class="page-item"><a class="page-link">...</a></li>
+          <% } %> <% } %> <% if (currentPage == lastPage) { %>
+          <li class="page-item"><a class="page-link">Last</a></li>
+          <% } else { %>
+          <li>
+            <a class="page-link">Last</a>
+          </li>
+          <% } %>
+        </ul>
+        <% } %>
+      </nav>
+    </div>
+  </div>
 </div>
-<div class="pages">
-  <!-- khong biet nen xai loadMore hay khong, vi da co pagination -->
-  <%if(0){%>
-  <p class="loadMore">
-    <a
-      href="?productsPerPage=<%=+productsPerPage+10%>"
-      class="btn btn-primary btn-lg"
-      ><i class="fa fa-chevron-down"></i> Load more</a
-    >
-  </p>
-  <%}%>
-  <nav
-    aria-label="Page navigation example"
-    class="d-flex justify-content-center"
-  >
-    <% if (lastPage > 0) { %>
-    <ul class="pagination">
-      <% if (currentPage == 1) { %>
-      <li class="page-item"><a class="page-link">First</a></li>
-      <% } else { %>
-      <li><a href="?page=1" class="page-link">First</a></li>
-      <% } %> <% let i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1)
-      %> <% if (i !== 1) { %>
-      <li class="page-item"><a class="page-link">...</a></li>
-      <% } %> <% for (; i <= (Number(currentPage) + 4) && i <= lastPage; i++) {
-      %> <% if (i == currentPage) { %>
-      <li class="page-item active"><a class="page-link"><%= i %></a></li>
-      <% } else { %>
-      <li><a href="?page=<%= i %>" class="page-link"><%= i %></a></li>
-      <% } %> <% if (i == Number(currentPage) + 4 && i < lastPage) { %>
-      <li class="page-item"><a class="page-link">...</a></li>
-      <% } %> <% } %> <% if (currentPage == lastPage) { %>
-      <li class="page-item"><a class="page-link">Last</a></li>
-      <% } else { %>
-      <li><a href="?page=<%= lastPage %>" class="page-link">Last</a></li>
-      <% } %>
-    </ul>
-    <% } %>
-  </nav>
-</div>
+<input type="hidden" id="productsPerPage" value="<%=productsPerPage%>" />
+<input type="hidden" id="lastPage" value="<%=lastPage%>" />
+<input type="hidden" id="productsCount" value="<%=productsCount%>" />
+<input type="hidden" id="currentPage" value="<%=currentPage%>" />

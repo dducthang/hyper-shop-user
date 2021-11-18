@@ -8,6 +8,7 @@ exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 3;
   let productsCount;
+  const sortBy = req.query.sortBy || 'createdDate';
 
   Product.find()
     .countDocuments()
@@ -17,6 +18,7 @@ exports.getProducts = (req, res, next) => {
         productsPerPage = n;
       }
       return Product.find()
+        .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
     })
@@ -28,6 +30,35 @@ exports.getProducts = (req, res, next) => {
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
       });
+    });
+};
+
+exports.getProductsApi = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let productsPerPage = +req.query.productsPerPage || 3;
+  let productsCount;
+  const sortBy = req.query.sortBy || 'createdDate';
+
+  Product.find()
+    .countDocuments()
+    .then(n => {
+      productsCount = n;
+      if (req.query.productsPerPage === 'all') {
+        productsPerPage = n;
+      }
+      return Product.find()
+        .sort(sortBy)
+        .skip((page - 1) * productsPerPage)
+        .limit(productsPerPage);
+    })
+    .then(products => {
+      res.status(200).send({
+        products,
+        productsPerPage,
+        productsCount,
+        currentPage: page,
+        lastPage: Math.ceil(productsCount / productsPerPage),
+      })
     });
 };
 
