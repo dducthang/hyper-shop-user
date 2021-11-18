@@ -4,21 +4,15 @@
   </div>
   <div class="card-body">
     <ul class="nav nav-pills flex-column category-menu">
+      <%for(cat of categories) {%>
       <li>
         <a href="#" class="nav-link"
-          >Lifestyle<span class="badge badge-secondary">42</span></a
+          ><%=cat.name%><span class="badge badge-secondary"
+            ><%=cat.quantity%></span
+          ></a
         >
       </li>
-      <li>
-        <a href="#" class="nav-link active"
-          >Soccer<span class="badge badge-light">123</span></a
-        >
-      </li>
-      <li>
-        <a href="#" class="nav-link"
-          >Skateboard<span class="badge badge-secondary">11</span></a
-        >
-      </li>
+      <%}%>
     </ul>
   </div>
 </div>

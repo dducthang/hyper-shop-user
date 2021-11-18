@@ -4,10 +4,25 @@ exports.getIndex = (req, res, next) => {
   res.render('shop/index');
 };
 
+async function getCategoriesQuantity() {
+  let res = [];
+  let cats = [];
+  cats = await Product.distinct('category');
+  for (c of cats) {
+    const quantity = await Product.count({ category: c });
+    res.push({
+      name: c,
+      quantity,
+    });
+  }
+  return res;
+}
+
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 3;
   let productsCount;
+
   const sortBy = req.query.sortBy || 'createdDate';
 
   Product.find()
@@ -22,13 +37,15 @@ exports.getProducts = (req, res, next) => {
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
     })
-    .then(products => {
+    .then(async function (products) {
+      console.log(await getCategoriesQuantity());
       res.render('shop/products', {
         products,
         productsPerPage,
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
+        categories: await getCategoriesQuantity(),
       });
     });
 };
@@ -58,7 +75,7 @@ exports.getProductsApi = (req, res, next) => {
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-      })
+      });
     });
 };
 

@@ -1,4 +1,4 @@
-$('.test').on('click', '.page-link', function () {
+$('.products-pages').on('click', '.page-link', function () {
   const url = 'http://localhost:3000/api/products';
   let page = this.text;
   if (page === 'First') page = 1;
