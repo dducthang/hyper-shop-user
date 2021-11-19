@@ -4,8 +4,8 @@ $('.category-menu').on('click', '.category-filter', reloadProduct);
 function reloadProduct() {
   const url = 'http://localhost:3000/api/products';
   let page = sessionStorage.getItem('page') || 1;
-  console.log(page);
   if (page === 'First') page = 1;
+  if (page === 'Last') page = sessionStorage.getItem('lastPage');
 
   // const lastPage = $('#lastPage').val(); //dùng hidden field tạm, chắc sau này xài session
   let lastPage;
@@ -33,6 +33,7 @@ function reloadProduct() {
       dataType: 'json',
       success: function (data) {
         lastPage = data.lastPage;
+        console.log(lastPage);
         if (page === 'Last') page = lastPage;
         // currentPage: page,
         sessionStorage.setItem('lastPage', lastPage);
