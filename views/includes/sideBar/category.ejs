@@ -6,7 +6,9 @@
     <ul class="nav nav-pills flex-column category-menu">
       <%for(cat of categories) {%>
       <li>
-        <a href="#" class="nav-link"
+        <a
+          href="/products?category=<%=cat.name%>"
+          class="nav-link category-filter"
           ><%=cat.name%><span class="badge badge-secondary"
             ><%=cat.quantity%></span
           ></a

@@ -1,22 +1,43 @@
-$('.products-pages').on('click', '.page-link', function () {
-  const url = 'http://localhost:3000/api/products';
-  let page = this.text;
-  if (page === 'First') page = 1;
-  if (page === 'Last') page = $('#lastPage').val();
-  const lastPage = $('#lastPage').val();
-  const productsPerPage = $('#productsPerPage').val();
+$('.products-pages').on('click', '.page-link', reloadProduct);
+$('.category-menu').on('click', '.category-filter', reloadProduct);
 
+function reloadProduct() {
+  const url = 'http://localhost:3000/api/products';
+  let page = sessionStorage.getItem('page') || 1;
+  console.log(page);
+  if (page === 'First') page = 1;
+
+  // const lastPage = $('#lastPage').val(); //dùng hidden field tạm, chắc sau này xài session
+  let lastPage;
+  const productsPerPage = $('#productsPerPage').val();
+  const filters = {
+    productsPerPage,
+    page,
+    category: sessionStorage.getItem('category'),
+    // brand: req.query.brand,
+    // color: req.query.color,
+    // sex: req.query.sex,
+    // shoesHeight: req.query.shoesHeight,
+    // closureType: req.query.closureType,
+    // material: req.query.material,
+  };
+  Object.keys(filters).forEach(
+    key => filters[key] === (undefined || null) && delete filters[key]
+  );
   event.preventDefault();
   //event.stopPropagation();
   if (page !== '...')
     $.ajax({
       url,
-      data: {
-        productsPerPage,
-        page,
-      },
+      data: filters,
       dataType: 'json',
       success: function (data) {
+        lastPage = data.lastPage;
+        if (page === 'Last') page = lastPage;
+        // currentPage: page,
+        sessionStorage.setItem('lastPage', lastPage);
+        sessionStorage.setItem('productsPerPage', data.productsPerPage);
+        sessionStorage.setItem('productsCount', data.productsCount);
         let html;
         let res = '<div class="row products">';
         data.products.forEach(product => {
@@ -26,24 +47,24 @@ $('.products-pages').on('click', '.page-link', function () {
           <div class="flipper">
             <div class="front">
               <a href="/productDetail"
-                ><img src="img/product1.jpg" alt="" class="img-fluid"
+                ><img src="${product.image}" alt="" class="img-fluid"
               /></a>
             </div>
             <div class="back">
               <a href="/productDetail"
-                ><img src="img/product1_2.jpg" alt="" class="img-fluid"
+                ><img src="${product.image}" alt="" class="img-fluid"
               /></a>
             </div>
           </div>
         </div>
         <a href="/productDetail" class="invisible"
-          ><img src="img/product1.jpg" alt="" class="img-fluid"
+          ><img src="${product.image}" alt="" class="img-fluid"
         /></a>
         <div class="text">
           <h3><a href="/productDetail">${product.name}</a></h3>
           <p class="price"><del></del>$${product.price}</p>
           <p class="buttons">
-            <a href="/productDetail" class="btn btn-outline-secondary"
+            <a href="/products/${product._id}" class="btn btn-outline-secondary"
               >View detail</a
             ><a href="/cart" class="btn btn-primary"
               ><i class="fa fa-shopping-cart"></i>Add to cart</a
@@ -93,4 +114,4 @@ $('.products-pages').on('click', '.page-link', function () {
         console.log(error);
       },
     });
-});
+}
