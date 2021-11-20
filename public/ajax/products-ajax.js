@@ -6,10 +6,9 @@ function reloadProduct() {
   let page = sessionStorage.getItem('page') || 1;
   if (page === 'First') page = 1;
   if (page === 'Last') page = sessionStorage.getItem('lastPage');
-
   // const lastPage = $('#lastPage').val(); //dùng hidden field tạm, chắc sau này xài session
   let lastPage;
-  const productsPerPage = $('#productsPerPage').val();
+  const productsPerPage = $('#productsPerPage').val(); //nhớ coi chuyển qua session
   const filters = {
     productsPerPage,
     page,
@@ -32,14 +31,24 @@ function reloadProduct() {
       data: filters,
       dataType: 'json',
       success: function (data) {
+        console.log(data);
         lastPage = data.lastPage;
-        console.log(lastPage);
         if (page === 'Last') page = lastPage;
         // currentPage: page,
         sessionStorage.setItem('lastPage', lastPage);
         sessionStorage.setItem('productsPerPage', data.productsPerPage);
         sessionStorage.setItem('productsCount', data.productsCount);
         let html;
+        let productShowing = `Showing
+        <strong
+          >${
+            data.productsPerPage <= data.productsCount
+              ? data.productsPerPage
+              : data.productsCount
+          }
+          </strong
+        >
+        of <strong>${data.productsCount}  </strong> products`;
         let res = '<div class="row products">';
         data.products.forEach(product => {
           html = `<div class="col-lg-4 col-md-6">
@@ -110,6 +119,7 @@ function reloadProduct() {
         res += pagesHtml;
 
         $('.products-pages').html(res);
+        $('.products-showing').html(productShowing);
       },
       error: function (error) {
         console.log(error);

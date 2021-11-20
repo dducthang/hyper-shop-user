@@ -8,7 +8,7 @@ exports.getProductsApi = (req, res, next) => {
     category: req.query.category,
     // brand: req.query.brand,
     // color: req.query.color,
-    // sex: req.query.sex, 
+    // sex: req.query.sex,
     // shoesHeight: req.query.shoesHeight,
     // closureType: req.query.closureType,
     // material: req.query.material,
@@ -17,7 +17,7 @@ exports.getProductsApi = (req, res, next) => {
     key => filters[key] === undefined && delete filters[key]
   );
 
-  //const sortBy = req.query.sortBy || 'createdDate';
+  const sortBy = req.query.sortBy || 'createdDate';
 
   Product.find()
     .count(filters)
@@ -27,7 +27,7 @@ exports.getProductsApi = (req, res, next) => {
         productsPerPage = n;
       }
       return Product.find(filters)
-        //.sort(sortBy)
+        .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
     })
