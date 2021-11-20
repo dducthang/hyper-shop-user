@@ -1,30 +1,43 @@
-const Product = require('../models/product');
+const getCategoriesQuantity = require('../util/util').getCategoriesQuantity;
 
-exports.getIndex = (req, res, next) => {
-  res.render('shop/index');
+exports.getIndex = async (req, res, next) => {
+  res.render('shop/index', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-
-exports.getOrder = (req, res, next) => {
-  res.render('shop/order');
+exports.getOrder = async (req, res, next) => {
+  res.render('shop/order', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-exports.getSignup = (req, res, next) => {
-  res.render('auth/signup');
+exports.getSignup = async (req, res, next) => {
+  res.render('auth/signup', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-exports.getCart = (req, res, next) => {
-  res.render('shop/cart');
+exports.getCart = async (req, res, next) => {
+  res.render('shop/cart', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout');
+exports.getCheckout = async (req, res, next) => {
+  res.render('shop/checkout', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-exports.getSignup = (req, res, next) => {
-  res.render('auth/signup');
+exports.getSignup = async (req, res, next) => {
+  res.render('auth/signup', {
+    categories: await getCategoriesQuantity(),
+  });
 };
 
-exports.getProfile = (req, res, next) => {
-  res.render('shop/profile');
+exports.getProfile = async (req, res, next) => {
+  res.render('shop/profile', {
+    categories: await getCategoriesQuantity(),
+  });
 };

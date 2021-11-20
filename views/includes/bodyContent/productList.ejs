@@ -19,24 +19,22 @@
       >
         <div class="products-number">
           <strong>Show</strong>
-          <%if(productsPerPage==12) {%>
-          <a href="?productsPerPage=12" class="btn btn-primary btn-sm">12</a>
+          <%if(productsPerPage==2) {%>
+          <a class="btn btn-primary btn-sm show-products-quantity">2</a>
           <%} else {%>
-          <a href="?productsPerPage=12" class="btn btn-outline-secondary btn-sm"
-            >12</a
+          <a class="btn btn-outline-secondary btn-sm show-products-quantity"
+            >2</a
           >
-          <%}%> <%if(productsPerPage==24) {%>
-          <a href="?productsPerPage=24" class="btn btn-primary btn-sm">24</a>
+          <%}%> <%if(productsPerPage==4) {%>
+          <a class="btn btn-primary btn-sm show-products-quantity">4</a>
           <%} else {%>
-          <a href="?productsPerPage=24" class="btn btn-outline-secondary btn-sm"
-            >24</a
+          <a class="btn btn-outline-secondary btn-sm show-products-quantity"
+            >4</a
           >
           <%}%> <%if(productsPerPage===productsCount) {%>
-          <a href="?productsPerPage=all" class="btn btn-primary btn-sm">All</a>
+          <a class="btn btn-primary btn-sm show-products-quantity">All</a>
           <%} else {%>
-          <a
-            href="?productsPerPage=all"
-            class="btn btn-outline-secondary btn-sm"
+          <a class="btn btn-outline-secondary btn-sm show-products-quantity"
             >All</a
           >
           <%}%>
@@ -98,3 +96,4 @@
 <input type="hidden" id="lastPage" value="<%=lastPage%>" />
 <input type="hidden" id="productsCount" value="<%=productsCount%>" />
 <input type="hidden" id="currentPage" value="<%=currentPage%>" />
+

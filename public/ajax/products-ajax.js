@@ -1,14 +1,19 @@
 $('.products-pages').on('click', '.page-link', reloadProduct);
 $('.category-menu').on('click', '.category-filter', reloadProduct);
+$('.products-number').on('click', '.show-products-quantity', reloadProduct);
 
 function reloadProduct() {
+  event.preventDefault();
+  //event.stopPropagation();
   const url = 'http://localhost:3000/api/products';
   let page = sessionStorage.getItem('page') || 1;
   if (page === 'First') page = 1;
   if (page === 'Last') page = sessionStorage.getItem('lastPage');
-  // const lastPage = $('#lastPage').val(); //dùng hidden field tạm, chắc sau này xài session
   let lastPage;
-  const productsPerPage = $('#productsPerPage').val(); //nhớ coi chuyển qua session
+  let productsPerPage = sessionStorage.getItem('productsPerPage') || 3;
+  if (productsPerPage === 'All')
+    //productsPerPage = sessionStorage.getItem('productsCount');
+    productsPerPage = 'All'; //sẽ bị remove trong filter=> query all
   const filters = {
     productsPerPage,
     page,
@@ -23,23 +28,22 @@ function reloadProduct() {
   Object.keys(filters).forEach(
     key => filters[key] === (undefined || null) && delete filters[key]
   );
-  event.preventDefault();
-  //event.stopPropagation();
+
   if (page !== '...')
     $.ajax({
       url,
       data: filters,
       dataType: 'json',
       success: function (data) {
-        console.log(data);
         lastPage = data.lastPage;
         if (page === 'Last') page = lastPage;
         // currentPage: page,
         sessionStorage.setItem('lastPage', lastPage);
-        sessionStorage.setItem('productsPerPage', data.productsPerPage);
+        //sessionStorage.setItem('productsPerPage', data.productsPerPage);
         sessionStorage.setItem('productsCount', data.productsCount);
         let html;
-        let productShowing = `Showing
+
+        const productShowing = `Showing
         <strong
           >${
             data.productsPerPage <= data.productsCount
@@ -49,6 +53,31 @@ function reloadProduct() {
           </strong
         >
         of <strong>${data.productsCount}  </strong> products`;
+
+        let productsNumber = `
+        <strong>Show</strong>`;
+        productsNumber +=
+          sessionStorage.getItem('productsPerPage') == 2
+            ? `<a class="btn btn-primary btn-sm show-products-quantity">2</a>`
+            : `
+          <a class="btn btn-outline-secondary btn-sm show-products-quantity"
+          >2</a
+        >`;
+        productsNumber +=
+          sessionStorage.getItem('productsPerPage') == 4
+            ? `<a class="btn btn-primary btn-sm show-products-quantity">4</a>`
+            : `<a class="btn btn-outline-secondary btn-sm show-products-quantity"
+        >4</a
+      >`;
+
+        productsNumber +=
+          sessionStorage.getItem('productsPerPage') === 'All'
+            ? `<a class="btn btn-primary btn-sm show-products-quantity">All</a>`
+            : ` <a class="btn btn-outline-secondary btn-sm show-products-quantity"
+      >All</a
+    >`;
+        productsNumber += `<span>products</span>`;
+
         let res = '<div class="row products">';
         data.products.forEach(product => {
           html = `<div class="col-lg-4 col-md-6">
@@ -120,6 +149,7 @@ function reloadProduct() {
 
         $('.products-pages').html(res);
         $('.products-showing').html(productShowing);
+        $('.products-number').html(productsNumber);
       },
       error: function (error) {
         console.log(error);

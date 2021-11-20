@@ -50,22 +50,16 @@
                 <div class="col-md-6 col-lg-3">
                   <h5>Category</h5>
                   <ul class="list-unstyled mb-3">
+                    <%for(c of categories){%>
                     <li class="nav-item">
-                      <a href="/products?category=football" class="nav-link"
-                        >Football</a
+                      <a href="/products?category=<%=c.name%>" class="nav-link"
+                        ><%=c.name%></a
                       >
                     </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Basketball</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Running</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Casual</a>
-                    </li>
+                    <%}%>
                   </ul>
                 </div>
+                <% /* %>
                 <div class="col-md-6 col-lg-3">
                   <h5>Brand</h5>
                   <ul class="list-unstyled mb-3">
@@ -83,6 +77,7 @@
                     </li>
                   </ul>
                 </div>
+
                 <div class="col-md-6 col-lg-3">
                   <h5>Price</h5>
                   <ul class="list-unstyled mb-3">
@@ -100,6 +95,7 @@
                     </li>
                   </ul>
                 </div>
+                <% */ %>
               </div>
             </li>
           </ul>

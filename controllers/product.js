@@ -1,18 +1,5 @@
 const Product = require('../models/product');
-
-async function getCategoriesQuantity() {
-  let res = [];
-  let cats = [];
-  cats = await Product.distinct('category');
-  for (c of cats) {
-    const quantity = await Product.count({ category: c });
-    res.push({
-      name: c,
-      quantity,
-    });
-  }
-  return res;
-}
+const util = require('../util/util');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
@@ -53,7 +40,7 @@ exports.getProducts = (req, res, next) => {
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-        categories: await getCategoriesQuantity(),
+        categories: await util.getCategoriesQuantity(),
       });
     });
 };
@@ -64,7 +51,7 @@ exports.getProductDetail = (req, res, next) => {
     res.render('shop/productDetail', {
       product: product,
       pageTitle: 'Product detail',
-      categories: await getCategoriesQuantity(),
+      categories: await util.getCategoriesQuantity(),
     });
   });
 };

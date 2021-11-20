@@ -4,6 +4,7 @@ exports.getProductsApi = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 3;
   let productsCount;
+  console.log(req.query);
   const filters = {
     category: req.query.category,
     // brand: req.query.brand,
@@ -23,7 +24,7 @@ exports.getProductsApi = (req, res, next) => {
     .count(filters)
     .then(n => {
       productsCount = n;
-      if (req.query.productsPerPage === 'all') {
+      if (req.query.productsPerPage === 'All') {
         productsPerPage = n;
       }
       return Product.find(filters)
