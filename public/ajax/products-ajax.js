@@ -85,22 +85,22 @@ function reloadProduct() {
         <div class="flip-container">
           <div class="flipper">
             <div class="front">
-              <a href="/productDetail"
+              <a href="/products/${product._id}"
                 ><img src="${product.image}" alt="" class="img-fluid"
               /></a>
             </div>
             <div class="back">
-              <a href="/productDetail"
+              <a href="/products/${product._id}"
                 ><img src="${product.image}" alt="" class="img-fluid"
               /></a>
             </div>
           </div>
         </div>
-        <a href="/productDetail" class="invisible"
+        <a href="/products/${product._id}" class="invisible"
           ><img src="${product.image}" alt="" class="img-fluid"
         /></a>
         <div class="text">
-          <h3><a href="/productDetail">${product.name}</a></h3>
+          <h3><a href="/products/${product._id}">${product.name}</a></h3>
           <p class="price"><del></del>$${product.price}</p>
           <p class="buttons">
             <a href="/products/${product._id}" class="btn btn-outline-secondary"

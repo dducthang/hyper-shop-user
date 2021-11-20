@@ -4,7 +4,6 @@ exports.getProductsApi = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 3;
   let productsCount;
-  console.log(req.query);
   const filters = {
     category: req.query.category,
     // brand: req.query.brand,
