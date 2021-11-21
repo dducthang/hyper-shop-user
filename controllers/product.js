@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const util = require('../util/util');
+const getCategoriesQuantity = require('../util/getCategoriesQuantity');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
@@ -40,7 +40,7 @@ exports.getProducts = (req, res, next) => {
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-        categories: await util.getCategoriesQuantity(),
+        categories: await getCategoriesQuantity(),
       });
     });
 };
@@ -51,7 +51,7 @@ exports.getProductDetail = (req, res, next) => {
     res.render('shop/productDetail', {
       product: product,
       pageTitle: 'Product detail',
-      categories: await util.getCategoriesQuantity(),
+      categories: await getCategoriesQuantity(),
     });
   });
 };

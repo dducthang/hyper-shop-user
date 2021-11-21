@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 
-exports.getCategoriesQuantity = async function getCategoriesQuantity() {
+module.exports = async function getCategoriesQuantity() {
   let res = [];
   let cats = [];
   cats = await Product.distinct('category');
