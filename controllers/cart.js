@@ -1,7 +1,7 @@
-const getCategoriesQuantity = require('../util/getCategoriesQuantity')
+const Product = require('../models/product');// nhớ pass categories cho tất cả các view
 
 exports.getCart = async (req, res, next) => {
     res.render('shop/cart', {
-      categories: await getCategoriesQuantity(),
+      categories: await Product.getCategoriesQuantity(),
     });
   };

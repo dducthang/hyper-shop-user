@@ -19,14 +19,15 @@ exports.getProductsApi = (req, res, next) => {
 
   const sortBy = req.query.sortBy || 'createdDate';
 
-  Product.find()
-    .count(filters)
+  Product
+    .countProducts(filters)
     .then(n => {
       productsCount = n;
       if (req.query.productsPerPage === 'All') {
         productsPerPage = n;
       }
-      return Product.find(filters)
+      return Product
+        .getProducts(filters)
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);

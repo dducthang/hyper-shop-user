@@ -56,7 +56,6 @@ function reloadProduct() {
           );
           productsList += productBox;
         });
-        console.log(lastPage, page);
         const pagesNumber = getPagesNumber(lastPage, page); //paging number ở dưới
         $('.products').html(productsList);
         $('.pages').html(pagesNumber);
@@ -139,7 +138,6 @@ function getProductsNumber() {
   return res;
 }
 function getPagesNumber(lastPage, page) {
-  console.log(lastPage, page);
   let res = `
 <nav
   aria-label="Page navigation example"

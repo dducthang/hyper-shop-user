@@ -21,7 +21,7 @@ $('.category-menu').on('click', '.category-filter', function () {
   );
 });
 $('.pages').on('click', '.page-link', function () {
-  const page = this.text;
+  //const page = this.text;
   sessionStorage.setItem('page', this.text);
 });
 $('.products-number').on('click', '.show-products-quantity', function () {

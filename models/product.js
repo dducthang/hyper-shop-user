@@ -59,4 +59,32 @@ productSchema.methods.Description = function () {
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+function countProducts(filters) {
+  return Product.find(filters).countDocuments();
+}
+function getProducts(filters) {
+  return Product.find(filters);
+}
+function getProduct(id) {
+  return Product.findById(id);
+}
+async function getCategoriesQuantity() {
+  let res = [];
+  let cats = [];
+  cats = await Product.distinct('category');
+  for (c of cats) {
+    const quantity = await Product.count({ category: c });
+    res.push({
+      name: c,
+      quantity,
+    });
+  }
+  return res;
+}
+
+module.exports = {
+  countProducts,
+  getProducts,
+  getProduct,
+  getCategoriesQuantity,
+};

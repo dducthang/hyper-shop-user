@@ -1,5 +1,5 @@
-const Product = require('../models/product');
-const getCategoriesQuantity = require('../util/getCategoriesQuantity');
+const Product = require('../models/product');// nhớ pass categories cho tất cả các view
+//const getCategoriesQuantity = require('../util/getCategoriesQuantity');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
@@ -20,14 +20,15 @@ exports.getProducts = (req, res, next) => {
 
   const sortBy = req.query.sortBy || 'createdDate';
 
-  Product.find()
-    .count(filters)
+  Product
+    .countProducts(filters)
     .then(n => {
       productsCount = n;
       if (req.query.productsPerPage === 'all') {
         productsPerPage = n;
       }
-      return Product.find(filters)
+      return Product
+        .getProducts(filters)
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
@@ -40,18 +41,18 @@ exports.getProducts = (req, res, next) => {
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-        categories: await getCategoriesQuantity(),
+        categories: await Product.getCategoriesQuantity(),
       });
     });
 };
 
 exports.getProductDetail = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findById(productId).then(async function (product) {
+  Product.getProduct(productId).then(async function (product) {
     res.render('shop/productDetail', {
       product: product,
       pageTitle: 'Product detail',
-      categories: await getCategoriesQuantity(),
+      categories: await Product.getCategoriesQuantity(),
     });
   });
 };
