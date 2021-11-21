@@ -2,10 +2,16 @@ $(function () {
   sessionStorage.clear();
   sessionStorage.setItem('lastPage', $('#lastPage').val());
   sessionStorage.setItem('productsCount', $('#productsCount').val());
+
+  //nếu người dùng nhập truy vấn trên url thì lưu lại để mỗi khi call ajax thì dùng các tham số này
   url_string = window.location.href;
   const url = new URL(url_string);
   const category = url.searchParams.get('category');
+  const productsPerPage = url.searchParams.get('productsPerPage');
   if (category !== null) sessionStorage.setItem('category', category);
+  if (productsPerPage !== null)
+    sessionStorage.setItem('productsPerPage', productsPerPage);
+  //còn nữa từ từ làm
 });
 $('.category-menu').on('click', '.category-filter', function () {
   sessionStorage.removeItem('page');
@@ -14,7 +20,7 @@ $('.category-menu').on('click', '.category-filter', function () {
     $(this).clone().children().remove().end().text() //remove span tag
   );
 });
-$('.products-pages').on('click', '.page-link', function () {
+$('.pages').on('click', '.page-link', function () {
   const page = this.text;
   sessionStorage.setItem('page', this.text);
 });
