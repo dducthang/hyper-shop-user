@@ -7,7 +7,7 @@ $(function () {
   url_string = window.location.href;
   const url = new URL(url_string);
   const category = url.searchParams.get('category');
-  const productsPerPage = url.searchParams.get('productsPerPage');
+  const productsPerPage = url.searchParams.get('productsPerPage') || 12;
   if (category !== null) sessionStorage.setItem('category', category);
   if (productsPerPage !== null)
     sessionStorage.setItem('productsPerPage', productsPerPage);
@@ -19,6 +19,7 @@ $('.category-menu').on('click', '.category-filter', function () {
     'category',
     $(this).clone().children().remove().end().text() //remove span tag
   );
+  $('.search').val('');
 });
 $('.pages').on('click', '.page-link', function () {
   //const page = this.text;

@@ -1,19 +1,29 @@
 $('.pages').on('click', '.page-link', reloadProduct);
 $('.category-menu').on('click', '.category-filter', reloadProduct);
 $('.products-number').on('click', '.show-products-quantity', reloadProduct);
+$('.search-form').on('click', '.search-button', function () {
+  sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng search, set page lại bằng 1
+  reloadProduct();
+});
+$('.search-form-container').on('submit', '#search-form', function () {
+  sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng search, set page lại bằng 1
+  reloadProduct();
+});
 
 function reloadProduct() {
+  const name = $('.search').val() !== '' ? $('.search').val() : null; //search by name
   event.preventDefault();
   const url = 'http://localhost:3000/api/products';
   let page = sessionStorage.getItem('page') || 1;
   if (page === 'First') page = 1;
   if (page === 'Last') page = sessionStorage.getItem('lastPage');
   let lastPage;
-  let productsPerPage = sessionStorage.getItem('productsPerPage') || 3;
+  let productsPerPage = sessionStorage.getItem('productsPerPage') || 12;
   if (productsPerPage === 'All')
     //productsPerPage = sessionStorage.getItem('productsCount');
     productsPerPage = 'All'; //sẽ bị remove trong filter=> query all
   const filters = {
+    name,
     productsPerPage,
     page,
     category: sessionStorage.getItem('category'),
@@ -24,9 +34,14 @@ function reloadProduct() {
     // closureType: req.query.closureType,
     // material: req.query.material,
   };
+
+  // remove các filter null or undefined
   Object.keys(filters).forEach(
-    key => filters[key] === (undefined || null) && delete filters[key]
-  ); // remove các filter null or undefined
+    key => filters[key] === undefined && delete filters[key]
+  );
+  Object.keys(filters).forEach(
+    key => filters[key] === null && delete filters[key]
+  );
 
   if (page !== '...')
     $.ajax({
@@ -47,15 +62,15 @@ function reloadProduct() {
         const productsNumber = getProductsNumber(); //selected quantity of product
         let productsList = '';
         let productBox;
-        data.products.forEach(product => {
-          productBox = getProductBox(
-            product._id,
-            product.image,
-            product.name,
-            product.price
-          );
-          productsList += productBox;
-        });
+        if (data.products.length > 0) {
+          data.products.forEach(product => {
+            productBox = getProductBox(product);
+            productsList += productBox;
+          });
+        } else {
+          productsList =
+            "<div><p>Sorry, we don't have thing you need</p></div>";
+        }
         const pagesNumber = getPagesNumber(lastPage, page); //paging number ở dưới
         $('.products').html(productsList);
         $('.pages').html(pagesNumber);
@@ -68,31 +83,31 @@ function reloadProduct() {
     });
 }
 
-function getProductBox(id, image, name, price) {
+function getProductBox(product) {
   return `<div class="col-lg-4 col-md-6">
   <div class="product">
     <div class="flip-container">
       <div class="flipper">
         <div class="front">
-          <a href="/products/${id}"
-            ><img src="${image}" alt="" class="img-fluid"
+          <a href="/products/${product._id}"
+            ><img src="https://hyper-shop-admin.herokuapp.com/${product.image}" alt="" class="img-fluid"
           /></a>
         </div>
         <div class="back">
-          <a href="/products/${id}"
-            ><img src="${image}" alt="" class="img-fluid"
+          <a href="/products/${product._id}"
+            ><img src="https://hyper-shop-admin.herokuapp.com/${product.image}" alt="" class="img-fluid"
           /></a>
         </div>
       </div>
     </div>
-    <a href="/products/${id}" class="invisible"
-      ><img src="${image}" alt="" class="img-fluid"
+    <a href="/products/${product._id}" class="invisible"
+      ><img src="https://hyper-shop-admin.herokuapp.com/${product.image}" alt="" class="img-fluid"
     /></a>
     <div class="text">
-      <h3><a href="/products/${id}">${name}</a></h3>
-      <p class="price"><del></del>$${price}</p>
+      <h3><a href="/products/${product._id}">${product.name}</a></h3>
+      <p class="price"><del></del>$${product.price}</p>
       <p class="buttons">
-        <a href="/products/${id}" class="btn btn-outline-secondary"
+        <a href="/products/${product._id}" class="btn btn-outline-secondary"
           >View detail</a
         ><a href="/cart" class="btn btn-primary"
           ><i class="fa fa-shopping-cart"></i>Add to cart</a
@@ -115,17 +130,17 @@ function getProductsNumber() {
   let res = `
   <strong>Show</strong>`;
   res +=
-    sessionStorage.getItem('productsPerPage') == 2
-      ? `<a class="btn btn-primary btn-sm show-products-quantity">2</a>`
+    sessionStorage.getItem('productsPerPage') == 12
+      ? `<a class="btn btn-primary btn-sm show-products-quantity">12</a>`
       : `
     <a class="btn btn-outline-secondary btn-sm show-products-quantity"
-    >2</a
+    >12</a
   >`;
   res +=
-    sessionStorage.getItem('productsPerPage') == 4
-      ? `<a class="btn btn-primary btn-sm show-products-quantity">4</a>`
+    sessionStorage.getItem('productsPerPage') == 24
+      ? `<a class="btn btn-primary btn-sm show-products-quantity">24</a>`
       : `<a class="btn btn-outline-secondary btn-sm show-products-quantity"
-  >4</a
+  >24</a
 >`;
 
   res +=

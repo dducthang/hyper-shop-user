@@ -1,9 +1,9 @@
-const Product = require('../models/product');// nhớ pass categories cho tất cả các view
+const Product = require('../models/product'); // nhớ pass categories cho tất cả các view
 //const getCategoriesQuantity = require('../util/getCategoriesQuantity');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
-  let productsPerPage = +req.query.productsPerPage || 3;
+  let productsPerPage = +req.query.productsPerPage || 12;
   let productsCount;
   const filters = {
     category: req.query.category,
@@ -17,18 +17,19 @@ exports.getProducts = (req, res, next) => {
   Object.keys(filters).forEach(
     key => filters[key] === undefined && delete filters[key]
   );
+  Object.keys(filters).forEach(
+    key => filters[key] === null && delete filters[key]
+  );
 
   const sortBy = req.query.sortBy || 'createdDate';
 
-  Product
-    .countProducts(filters)
+  Product.countProducts(filters)
     .then(n => {
       productsCount = n;
       if (req.query.productsPerPage === 'all') {
         productsPerPage = n;
       }
-      return Product
-        .getProducts(filters)
+      return Product.getProducts(filters)
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);

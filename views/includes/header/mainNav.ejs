@@ -127,12 +127,16 @@
   </div>
 </nav>
 <div id="search" class="collapse">
-  <div class="container">
-    <form role="search" class="ml-auto">
+  <div class="container search-form-container">
+    <form role="search" class="ml-auto search-form" id="search-form">
       <div class="input-group">
-        <input type="text" placeholder="Search" class="form-control" />
+        <input type="text" placeholder="Search" class="form-control search" />
         <div class="input-group-append">
-          <button type="button" class="btn btn-primary">
+          <button
+            type="submit"
+            form="search-form"
+            class="btn btn-primary search-button"
+          >
             <i class="fa fa-search"></i>
           </button>
         </div>
