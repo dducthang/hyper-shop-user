@@ -1,10 +1,10 @@
 {
-  "name": "obaju-shop",
+  "name": "hyper-shop",
   "version": "1.0.0",
   "description": "sneaker shop for sneaker-heads",
   "main": "app.js",
   "engines": {
-    "node":"16.5.0"
+    "node": "16.5.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,6 +24,7 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "jquery": "^3.6.0",
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0"
   },
