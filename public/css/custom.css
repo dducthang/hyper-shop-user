@@ -20,6 +20,10 @@
     margin: 10px 0;
 }
 
+.cursor-pointer:hover{
+    cursor: pointer;
+}
+
 /* Product */
 .feedback{
     background-color: white;
