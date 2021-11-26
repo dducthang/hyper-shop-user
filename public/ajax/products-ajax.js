@@ -159,22 +159,22 @@ function getPagesNumber(lastPage, page) {
   class="d-flex justify-content-center"
 >`;
   if (lastPage > 0) {
-    res += `<ul class="pagination"><li class="page-item"><a class="page-link">First</a></li>`;
+    res += `<ul class="pagination"><li class="page-item cursor-pointer"><a class="page-link">First</a></li>`;
     let i = Number(page) > 5 ? Number(page) - 4 : 1;
     if (i !== 1) {
-      res += `<li class="page-item"><a class="page-link">...</a></li>`;
+      res += `<li class="page-item cursor-pointer"><a class="page-link">...</a></li>`;
     }
     for (; i <= Number(page) + 4 && i <= lastPage; i++) {
       if (i == page) {
-        res += `<li class="page-item active"><a class="page-link">${i}</a></li>`;
+        res += `<li class="page-item cursor-pointer active"><a class="page-link">${i}</a></li>`;
       } else {
-        res += `<li class="page-item"><a class="page-link">${i}</a></li>`;
+        res += `<li class="page-item cursor-pointer"><a class="page-link">${i}</a></li>`;
       }
       if (i == Number(page) + 4 && i < lastPage) {
-        res += `<li class="page-item"><a class="page-link">...</a></li>`;
+        res += `<li class="page-item cursor-pointer"><a class="page-link">...</a></li>`;
       }
     }
-    res += `<li class="page-item">
+    res += `<li class="page-item cursor-pointer">
   <a class="page-link">Last</a>
 </li>`;
     res += `</ul>`;
