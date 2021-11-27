@@ -20,12 +20,12 @@
                             </nav>
                         </div>
                         <div id="basket" class="col-lg-9">
-                            <%- include('../includes/cart/cartTable')%>
-                            <%- include('../includes/bodyContent/relatedProducts')%>
+                            <%- include('../includes/cart/cartTable', {cart}) %>
+                            <%- include('../includes/bodyContent/relatedProducts', {cart}) %>
                         </div>
                         <!-- ORDER SUMMARY =========================================== -->
                         <div class="col-lg-3">
-                            <%-include('../includes/cart/orderSummary')%>
+                            <%-include('../includes/cart/orderSummary', {cart})%>
                         </div>
                     </div>
                 </div>
@@ -34,5 +34,6 @@
 
 
 <%-include('../includes/footer/foot')%>
+<script src="/ajax/cart-ajax.js"></script>
 </body>
 </html>

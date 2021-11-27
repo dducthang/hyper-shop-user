@@ -83,6 +83,7 @@ async function getCategoriesQuantity() {
 }
 
 module.exports = {
+  Product,
   countProducts,
   getProducts,
   getProduct,
