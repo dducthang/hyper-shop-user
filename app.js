@@ -5,6 +5,10 @@ const morgan = require('morgan');
 require('./db/mongoose.js');
 require('dotenv/config');
 
+//add express session
+const session = require('express-session');
+const MongoDbStore = require('connect-mongodb-session')(session);
+
 const PORT = process.env.PORT || 3000;
 
 const shopRouter = require('./routes/shop');
@@ -19,10 +23,19 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('tiny'));
+
+const connectionString=process.env.CONNECTION_STRING;
+const store = new MongoDbStore({
+  uri:connectionString,
+  collection:'session'
+});
+
+app.use(session({secret:"My secret", resave: false, saveUninitialized:false, store: store}));
 
 app.use('/', shopRouter);
 app.use('/products', productRouter);

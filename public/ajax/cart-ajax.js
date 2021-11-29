@@ -1,6 +1,5 @@
 const deleteProdBtns= document.getElementsByClassName("delete-product-btn");
 
-
 const url = "http://localhost:3000/api/cart"
 const deleteProductHandler =async (event)=>{
     let product ={

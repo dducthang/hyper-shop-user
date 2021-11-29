@@ -76,10 +76,16 @@ function reloadProduct() {
         $('.pages').html(pagesNumber);
         $('.products-showing').html(productShowing);
         $('.products-number').html(productsNumber);
+
+        
       },
       error: function (error) {
         console.log(error);
       },
+      complete: function() { //chạy lại script sau khi gọi ajax
+        var arr = document.getElementById('scriptAddProductToCart')
+        eval(arr.innerHTML)//run script inside div
+     }
     });
 }
 
@@ -109,15 +115,18 @@ function getProductBox(product) {
       <p class="buttons">
         <a href="/products/${product._id}" class="btn btn-outline-secondary"
           >View detail</a
-        ><a href="/cart" class="btn btn-primary"
-          ><i class="fa fa-shopping-cart"></i>Add to cart</a
-        >
+        ><button class="btn btn-primary addToCartBtn" id=${product._id}>
+        <i class="fa fa-shopping-cart"></i>Add to cart
+      </button>
       </p>
     </div>
   </div>
 </div>
 `;
 }
+
+
+
 function getProductShowing(productsPerPage, productsCount) {
   return `Showing
         <strong

@@ -20,7 +20,11 @@
                             </nav>
                         </div>
                         <div id="basket" class="col-lg-9">
-                            <%- include('../includes/cart/cartTable', {cart}) %>
+                            <% if(isLoggedIn) { %>
+                                <%- include('../includes/cart/cartTable', {cart}) %>
+                            <% } else {  %>
+                                <%- include('../includes/cart/cartTableNoAuth', {cart}) %>
+                            <% } %>
                             <%- include('../includes/bodyContent/relatedProducts', {cart}) %>
                         </div>
                         <!-- ORDER SUMMARY =========================================== -->

@@ -10,3 +10,29 @@ exports.postCart=(req, res, next)=>{
         res.status(200).send(item)
     })
 }
+
+// exports.postCartAddProduct=(req, res, next)=>{
+//     if(!req.session.cart){
+//         req.session.cart=[{
+//             id:req.body.id,
+//             quantity: 1,
+//         }]
+//     }
+//     else{
+//         let checkExisted = false;
+//         for (item of req.session.cart){
+//             if(item.id===req.body.id){
+//                 item.quantity+=1;
+//                 checkExisted=true;
+//                 break;
+//             }
+//         }
+//         if(!checkExisted){
+//             req.session.cart.push({
+//                 id:req.body.id,
+//                 quantity: 1
+//             })
+//         }
+//     }
+//     res.status(200).send('Add cart successfully');
+// }
