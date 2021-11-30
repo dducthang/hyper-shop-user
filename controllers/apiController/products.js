@@ -1,23 +1,32 @@
 const Product = require('../../models/product');
 
 exports.getProductsApi = (req, res, next) => {
+  //Product.test('color'); //test
+
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 12;
   let productsCount;
   const name = req.query.name
     ? { $regex: `.*${req.query.name}.*`, $options: 'i' }
     : null;
-
+  let color = null;
+  if (req.query.color) {
+    let colorRegexString = ''; //match chuỗi có sự xuất hiện của bất kỳ từ nào trong array
+    req.query.color.forEach(c => {
+      colorRegexString += c + '|';
+    });
+    colorRegexString = colorRegexString.slice(0, -1); //remove last '|' char
+    color = { $regex: `.*(${colorRegexString}).*`, $options: 'i' };
+  }
   let category = req.query.category;
   if (category === 'all categories') {
     category = null; //remove
   }
-
   const filters = {
     name,
     category,
     brand: req.query.brand,
-    color: req.query.color,
+    color,
     sex: req.query.sex,
     shoesHeight: req.query.shoesHeight,
     closureType: req.query.closureType,

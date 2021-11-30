@@ -83,10 +83,15 @@ async function getCategoriesQuantity() {
   }
   return { catsQty, sum };
 }
-
+function test(prop) {
+  Product.distinct(prop).then(function (p) {
+    console.log(p);
+  });
+}
 module.exports = {
   countProducts,
   getProducts,
   getProduct,
   getCategoriesQuantity,
+  test, //để query xem tung thuộc tính trên db có giá trị nào
 };
