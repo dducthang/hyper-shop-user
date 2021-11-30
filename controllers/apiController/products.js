@@ -7,9 +7,15 @@ exports.getProductsApi = (req, res, next) => {
   const name = req.query.name
     ? { $regex: `.*${req.query.name}.*`, $options: 'i' }
     : null;
+
+  let category = req.query.category;
+  if (category === 'all categories') {
+    category = null; //remove
+  }
+
   const filters = {
     name,
-    category: req.query.category,
+    category,
     brand: req.query.brand,
     color: req.query.color,
     sex: req.query.sex,
@@ -23,8 +29,7 @@ exports.getProductsApi = (req, res, next) => {
   Object.keys(filters).forEach(
     key => filters[key] === null && delete filters[key]
   ); // remove các filter null or undefined
-  const sortBy = req.query.sortBy || 'createdDate';
-
+  const sortBy = req.query.sortBy || 'price';
   Product.countProducts(filters)
     .then(n => {
       productsCount = n;
@@ -32,6 +37,7 @@ exports.getProductsApi = (req, res, next) => {
         productsPerPage = n;
       }
       return Product.getProducts(filters)
+        .collation({ locale: 'en' })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
@@ -40,6 +46,7 @@ exports.getProductsApi = (req, res, next) => {
       res.status(200).send({
         products,
         productsPerPage,
+        queriedProductCount: products.length,
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),

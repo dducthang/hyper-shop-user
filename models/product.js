@@ -69,17 +69,19 @@ function getProduct(id) {
   return Product.findById(id);
 }
 async function getCategoriesQuantity() {
-  let res = [];
+  let catsQty = [];
   let cats = [];
+  let sum = 0;
   cats = await Product.distinct('category');
   for (c of cats) {
     const quantity = await Product.count({ category: c });
-    res.push({
+    sum += quantity;
+    catsQty.push({
       name: c,
       quantity,
     });
   }
-  return res;
+  return { catsQty, sum };
 }
 
 module.exports = {
