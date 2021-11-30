@@ -1,3 +1,4 @@
+let isDesc = 0; //sort tang hay giam dan
 $('.pages').on('click', '.page-link', reloadProduct);
 $('.category-menu').on('click', '.category-filter', reloadProduct);
 $('.products-number').on('click', '.show-products-quantity', reloadProduct);
@@ -9,9 +10,32 @@ $('.search-form-container').on('submit', '#search-form', function () {
   sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng search, set page lại bằng 1
   reloadProduct();
 });
+$('.sort-by').on('change', reloadProduct);
+$('.sort-order').on('click', function () {
+  const sortBy = $(this).attr('id');
+  if (sortBy == 'desc') {
+    if (!$('#desc').hasClass('btn-primary')) {
+      $('#desc').toggleClass('btn-primary');
+      $('#asc').toggleClass('btn-primary');
+      isDesc = 1;
+    }
+  } else {
+    if (!$('#asc').hasClass('btn-primary')) {
+      $('#desc').toggleClass('btn-primary');
+      $('#asc').toggleClass('btn-primary');
+      isDesc = 0;
+    }
+  }
+  reloadProduct();
+});
 
 function reloadProduct() {
   const name = $('.search').val() !== '' ? $('.search').val() : null; //search by name
+  let sortBy = $('.sort-by option:selected').val();
+  if (isDesc) {
+    sortBy = '-' + sortBy;
+  }
+  console.log(sortBy);
   event.preventDefault();
   const url = 'http://localhost:3000/api/products';
   let page = sessionStorage.getItem('page') || 1;
@@ -23,6 +47,7 @@ function reloadProduct() {
     //productsPerPage = sessionStorage.getItem('productsCount');
     productsPerPage = 'All'; //sẽ bị remove trong filter=> query all
   const filters = {
+    sortBy,
     name,
     productsPerPage,
     page,
@@ -55,7 +80,7 @@ function reloadProduct() {
         sessionStorage.setItem('lastPage', lastPage);
         sessionStorage.setItem('productsCount', data.productsCount);
         const productShowing = getProductShowing(
-          data.productsPerPage,
+          data.queriedProductCount,
           data.productsCount
         ); // Showing ? of ? product
 
@@ -118,10 +143,10 @@ function getProductBox(product) {
 </div>
 `;
 }
-function getProductShowing(productsPerPage, productsCount) {
+function getProductShowing(queriedProductCount, productsCount) {
   return `Showing
         <strong
-          >${productsPerPage <= productsCount ? productsPerPage : productsCount}
+          >${queriedProductCount}
           </strong
         >
         of <strong>${productsCount}</strong> products`;
