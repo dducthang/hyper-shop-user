@@ -29,7 +29,7 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.getSignin = async (req, res, next) => {
-  res.render('auth/signup', {
+  res.render('auth/signin', {
     categories: await Product.getCategoriesQuantity(),
   });
 };
