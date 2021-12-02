@@ -7,7 +7,7 @@ const session = require('express-session');
 require('./db/mongoose.js');
 require('dotenv/config');
 
-const initializePassport = require('./passport-config'); //lấy hàm cấu hình passport để gọi
+const initializePassport = require('./config/passport'); //lấy hàm cấu hình passport để gọi
 initializePassport(passport);
 
 const shopRouter = require('./routes/shop');
@@ -25,11 +25,20 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); //để parse request về json
+app.use(express.json()); //để parse request về json 
 
-app.use(session({ secret: process.env.SESSION_SECRET }));
-app.use(passport.initialize());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+  })
+);
+
+app.use(passport.initialize()); 
 app.use(passport.session());
+//để khi mà handler bất kỳ 1 req nào, 2 
+//sau khi đăng nhập, mọi request handle đều xài đc thằng req.user  
 
 app.use('/', shopRouter);
 app.use('/products', productRouter);

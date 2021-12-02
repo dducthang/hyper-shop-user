@@ -12,5 +12,13 @@ exports.signup = async newUser => {
   const saltRounds = 10; //tham số để truyền vào hàm hash, 10 rất thông dụng
   const hashedPassword = await bcrypt.hash(newUser.password, saltRounds); //hash password được gửi đến server từ form
   newUser.password = hashedPassword;
-  return User.create(newUser);//luu vao db
+  return User.create(newUser); //luu vao db
+};
+
+
+
+
+//trả về plain data giúp tăng performance khi chỉ cần truy vấn sự tồn tại của một user
+exports.getUserLean = async filter => {
+  return await User.findOne(filter).lean();
 };
