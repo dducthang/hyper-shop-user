@@ -24,12 +24,12 @@ const userSchema = new mongoose.Schema({
   avatar: String,
   address: {
     type: String,
-    required: true,
+    //required: true, tạm thời comment vì form đăng kí k có địa chỉ
   },
   phone: {
     type: String,
     minlength: 10,
-    maxlength: 10
+    maxlength: 10,
   },
   isLock: {
     type: Boolean,
