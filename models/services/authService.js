@@ -16,8 +16,6 @@ exports.signup = async newUser => {
 };
 
 
-
-
 //trả về plain data giúp tăng performance khi chỉ cần truy vấn sự tồn tại của một user
 exports.getUserLean = async filter => {
   return await User.findOne(filter).lean();

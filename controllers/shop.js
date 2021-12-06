@@ -3,6 +3,7 @@ const Product = require('../models/product');// nhớ pass categories cho tất 
 exports.getIndex = async (req, res, next) => {
   res.render('shop/index', {
     categories: await Product.getCategoriesQuantity(),
+    user: req.user
   });
 };
 
