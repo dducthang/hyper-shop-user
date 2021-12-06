@@ -44,6 +44,7 @@ exports.getProducts = (req, res, next) => {
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
         categories: await Product.getCategoriesQuantity(),
+        user: req.user
       });
     });
 };
@@ -55,6 +56,7 @@ exports.getProductDetail = (req, res, next) => {
       product: product,
       pageTitle: 'Product detail',
       categories: await Product.getCategoriesQuantity(),
+      user: req.user
     });
   });
 };

@@ -4,5 +4,6 @@ exports.getProfile = async (req, res, next) => {
   res.render("shop/profile", {
     categories: await Product.getCategoriesQuantity(),
     profile: req.user,
+    user: true
   });
 };
