@@ -4,7 +4,14 @@
   </div>
   <div class="card-body">
     <ul class="nav nav-pills flex-column category-menu">
-      <%for(cat of categories) {%>
+      <li>
+        <a href="/products?category=all" class="nav-link category-filter"
+          >all categories<span class="badge badge-secondary"
+            ><%=categories.sum%></span
+          ></a
+        >
+      </li>
+      <%for(cat of categories.catsQty) {%>
       <li>
         <a
           href="/products?category=<%=cat.name%>"

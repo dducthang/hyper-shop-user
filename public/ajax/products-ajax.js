@@ -1,18 +1,151 @@
+let isDesc = 0; //sort tang hay giam dan
+let brand = [];
+let closureType = [];
+let sex = [];
+let material = [];
+let shoesHeight = [];
+let color = [];
 $('.pages').on('click', '.page-link', reloadProduct);
 $('.category-menu').on('click', '.category-filter', reloadProduct);
 $('.products-number').on('click', '.show-products-quantity', reloadProduct);
-$('.search-form').on('click', '.search-button', function () {
+$('.search-form').on('click', '.search-button', function (e) {
   sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng search, set page lại bằng 1
-  reloadProduct();
+  reloadProduct(e);
 });
-$('.search-form-container').on('submit', '#search-form', function () {
+$('.search-form-container').on('submit', '#search-form', function (e) {
   sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng search, set page lại bằng 1
-  reloadProduct();
+  reloadProduct(e);
+});
+$('.sort-by').on('change', reloadProduct);
+$('.sort-order').on('click', function (e) {
+  const sortBy = $(this).attr('id');
+  if (sortBy == 'desc') {
+    if (!$('#desc').hasClass('btn-primary')) {
+      $('#desc').toggleClass('btn-primary');
+      $('#asc').toggleClass('btn-primary');
+      isDesc = 1;
+    }
+  } else {
+    if (!$('#asc').hasClass('btn-primary')) {
+      $('#desc').toggleClass('btn-primary');
+      $('#asc').toggleClass('btn-primary');
+      isDesc = 0;
+    }
+  }
+  reloadProduct(e);
+});
+$('.brand-button').on('click', function (e) {
+  sessionStorage.removeItem('page'); //nếu products đc reload vì người dùng dùng filter, set page lại bằng 1
+  brand = []; //array cũ chỉ có brand giữ địa chỉ
+  $('.brand-form input:checked').each(function () {
+    brand.push($(this).val());
+  });
+  reloadProduct(e);
 });
 
-function reloadProduct() {
+$('.brand-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  brand = []; //array cũ chỉ có brand giữ địa chỉ
+  $('.brand-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+
+$('.closure-button').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  closureType = [];
+  $('.closure-form input:checked').each(function () {
+    closureType.push($(this).val());
+  });
+  reloadProduct(e);
+});
+
+$('.closure-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  closureType = [];
+  $('.closure-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+$('.gender-button').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  sex = [];
+  $('.gender-form input:checked').each(function () {
+    sex.push($(this).val());
+  });
+  reloadProduct(e);
+});
+
+$('.gender-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  sex = [];
+  $('.gender-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+
+$('.material-button').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  material = [];
+  $('.material-form input:checked').each(function () {
+    material.push($(this).val());
+  });
+  reloadProduct(e);
+});
+
+$('.material-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  material = [];
+  $('.material-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+$('.shoesHeight-button').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  shoesHeight = [];
+  $('.shoesHeight-form input:checked').each(function () {
+    shoesHeight.push($(this).val());
+  });
+  reloadProduct(e);
+});
+
+$('.shoesHeight-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  shoesHeight = [];
+  $('.shoesHeight-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+$('.color-button').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  color = [];
+  $('.color-form input:checked').each(function () {
+    color.push($(this).val());
+  });
+  reloadProduct(e);
+});
+
+$('.color-clear').on('click', function (e) {
+  sessionStorage.removeItem('page');
+  color = [];
+  $('.color-form input:checked').each(function () {
+    $(this).prop('checked', false);
+  });
+  reloadProduct(e);
+});
+
+function reloadProduct(e) {
   const name = $('.search').val() !== '' ? $('.search').val() : null; //search by name
-  event.preventDefault();
+  let sortBy = $('.sort-by option:selected').val();
+  if (isDesc) {
+    sortBy = '-' + sortBy;
+  }
+  e.preventDefault();
   const url = 'http://localhost:3000/api/products';
   let page = sessionStorage.getItem('page') || 1;
   if (page === 'First') page = 1;
@@ -23,16 +156,17 @@ function reloadProduct() {
     //productsPerPage = sessionStorage.getItem('productsCount');
     productsPerPage = 'All'; //sẽ bị remove trong filter=> query all
   const filters = {
+    sortBy,
     name,
     productsPerPage,
     page,
     category: sessionStorage.getItem('category'),
-    // brand: req.query.brand,
-    // color: req.query.color,
-    // sex: req.query.sex,
-    // shoesHeight: req.query.shoesHeight,
-    // closureType: req.query.closureType,
-    // material: req.query.material,
+    brand,
+    color,
+    sex,
+    shoesHeight,
+    closureType,
+    material,
   };
 
   // remove các filter null or undefined
@@ -55,7 +189,7 @@ function reloadProduct() {
         sessionStorage.setItem('lastPage', lastPage);
         sessionStorage.setItem('productsCount', data.productsCount);
         const productShowing = getProductShowing(
-          data.productsPerPage,
+          data.queriedProductCount,
           data.productsCount
         ); // Showing ? of ? product
 
@@ -118,10 +252,10 @@ function getProductBox(product) {
 </div>
 `;
 }
-function getProductShowing(productsPerPage, productsCount) {
+function getProductShowing(queriedProductCount, productsCount) {
   return `Showing
         <strong
-          >${productsPerPage <= productsCount ? productsPerPage : productsCount}
+          >${queriedProductCount}
           </strong
         >
         of <strong>${productsCount}</strong> products`;

@@ -14,6 +14,7 @@ exports.signup = async (req, res, next) => {
       errorCode: 1,
       categories: await Product.getCategoriesQuantity(),
     });
+
   }
   try {
     await authService.signup({ name, email, password });
@@ -33,3 +34,4 @@ exports.getSignin = async (req, res, next) => {
     categories: await Product.getCategoriesQuantity(),
   });
 };
+

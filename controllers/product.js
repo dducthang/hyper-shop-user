@@ -21,7 +21,7 @@ exports.getProducts = (req, res, next) => {
     key => filters[key] === null && delete filters[key]
   );
 
-  const sortBy = req.query.sortBy || 'createdDate';
+  const sortBy = req.query.sortBy || 'price';
 
   Product.countProducts(filters)
     .then(n => {
@@ -30,6 +30,7 @@ exports.getProducts = (req, res, next) => {
         productsPerPage = n;
       }
       return Product.getProducts(filters)
+        .collation({ locale: 'en' })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
