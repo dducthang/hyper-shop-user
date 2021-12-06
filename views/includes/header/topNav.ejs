@@ -24,6 +24,7 @@
     aria-hidden="true"
     class="modal fade"
   >
+    <%/* này là để comment%> quăng cái popup đăng nhập vô comment đó bờ gô
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
@@ -38,11 +39,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/cart" method="get">
+          <form action="/auth/signin" method="post">
             <div class="form-group">
               <input
                 id="email-modal"
                 type="text"
+                name="email"
                 placeholder="email"
                 class="form-control"
               />
@@ -51,6 +53,7 @@
               <input
                 id="password-modal"
                 type="password"
+                name="password"
                 placeholder="password"
                 class="form-control"
               />
@@ -70,5 +73,7 @@
         </div>
       </div>
     </div>
+
+    <%*/%>
   </div>
 </div>
