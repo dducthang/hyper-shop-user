@@ -120,31 +120,43 @@
 <div class="feedback">
   <span class="medium-text">Product review and feedback</span>
   <div class="divide"></div>
-  <% for (let i=0;i<3;i++){ %>
-  <div class="comment">
-    <div class="customer-avatar">
-      <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
-        >Thang Dang</span
-      >
-    </div>
-    <div class="comment-content">
-      <span class="light-gray-color"
-        >this is the best shoes that i have ever owned</span
-      >
-    </div>
-    <div class="response">
-      <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
-        >Response by Obaju Shop</span
-      >
-      <div class="response-content">
-        Thank you for your feedback. This is our pleasure
+  <div class="comments-list">
+    <% for (comment of comments){ %>
+    <div class="comment">
+      <div class="customer-avatar">
+        <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
+          ><%=comment.user.name%></span
+        >
       </div>
+      <div class="comment-content">
+        <span class="light-gray-color"><%=comment.body%></span>
+      </div>
+      <div class="response">
+        <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
+          >Response by Obaju Shop</span
+        >
+        <div class="response-content">
+          Thank you for your feedback. This is our pleasure
+        </div>
+      </div>
+      <div class="divide"></div>
     </div>
-    <div class="divide"></div>
+    <% } %>
   </div>
-  <% } %>
 
-  <div class="add-comment">
-    <input type="text" placeholder="leave a comment....." />
-  </div>
+  <form
+    class="comment-form"
+    action="/api/comments/<%=product._id%>"
+    method="post"
+  >
+    <div class="add-comment">
+      <input
+        type="text"
+        name="comment"
+        class="comment-input"
+        placeholder="leave a comment....."
+      />
+    </div>
+    <button class="btn comment-button">Post</button>
+  </form>
 </div>
