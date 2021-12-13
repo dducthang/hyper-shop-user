@@ -121,7 +121,7 @@
   <span class="medium-text">Product review and feedback</span>
   <div class="divide"></div>
   <div class="comments-list">
-    <% for (comment of comments){ %>
+    <% for (comment of comments.reverse()){ %>
     <div class="comment">
       <div class="customer-avatar">
         <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
@@ -131,6 +131,8 @@
       <div class="comment-content">
         <span class="light-gray-color"><%=comment.body%></span>
       </div>
+
+      <%/* Shop Response %>
       <div class="response">
         <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
           >Response by Obaju Shop</span
@@ -139,9 +141,44 @@
           Thank you for your feedback. This is our pleasure
         </div>
       </div>
+      <%*/%>
       <div class="divide"></div>
     </div>
     <% } %>
+  </div>
+  <div class="pages">
+    <nav
+      aria-label="Page navigation example"
+      class="d-flex justify-content-center"
+    >
+      <% if (commentsLastPage > 0) { %>
+      <ul class="pagination">
+        <li class="page-item cursor-pointer"><a class="page-link">First</a></li>
+        <% let i = (Number(commentsCurrentPage) > 5 ?
+        Number(commentsCurrentPage) - 4 : 1) %> <% if (i !== 1) { %>
+        <li class="page-item cursor-pointer"><a class="page-link">...</a></li>
+        <% } %> <% for (; i <= (Number(commentsCurrentPage) + 4) && i <=
+        commentsLastPage; i++) { %> <% if (i == commentsCurrentPage) { %>
+        <li class="page-item cursor-pointer active">
+          <a class="page-link"><%= i %></a>
+        </li>
+        <% } else { %>
+        <li class="page-item cursor-pointer">
+          <a class="page-link"><%= i %></a>
+        </li>
+        <% } %> <% if (i == Number(commentsCurrentPage) + 4 && i <
+        commentsLastPage) { %>
+        <li class="page-item cursor-pointer"><a class="page-link">...</a></li>
+        <% } %> <% } %> <% if (commentsCurrentPage == commentsLastPage) { %>
+        <li class="page-item cursor-pointer"><a class="page-link">Last</a></li>
+        <% } else { %>
+        <li>
+          <a class="page-link cursor-pointer">Last</a>
+        </li>
+        <% } %>
+      </ul>
+      <% } %>
+    </nav>
   </div>
 
   <form

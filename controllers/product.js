@@ -50,13 +50,17 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getProductDetail = async (req, res, next) => {
+  const commentsPerPage = 10;
   const productId = req.params.productId;
   const product = await Product.getProduct(productId);
   const comments = await CommentService.getProductComments(productId);
+  const commentsCount = await CommentService.countComments(productId);
   res.render('shop/productDetail', {
     product: product,
     pageTitle: 'Product detail',
     comments,
+    commentsCurrentPage: 1,
+    commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
     categories: await Product.getCategoriesQuantity(),
     user: req.user,
   });

@@ -1,23 +1,3 @@
-// $('.comment-button').on('click', function (e) {
-//   e.preventDefault();
-//   const comment = $('.comment-input').val();
-//   console.log(comment);
-//   if (comment !== '') {
-//     const url = $('.comment-form').attr('action');
-//     console.log(url);
-//     $.ajax({
-//       type: 'POST',
-//       url,
-//       data: { comment },
-//       dataType: 'json',
-//       success: function (data) {},
-//       error: function (error) {
-//         console.log(error);
-//       },
-//     });
-//   }
-// });
-
 $('.comment-form').on('submit', function (e) {
   e.preventDefault(); // avoid to execute the actual submit of the form.
   const form = $(this);
@@ -31,7 +11,13 @@ $('.comment-form').on('submit', function (e) {
       url: url,
       data,
       success: function (data) {
-        console.log(data);
+        let commentsList = '';
+        //reverse để hiện thị bình luận mới nhất xuống dưới
+        for (comment of data.comments.reverse()) {
+          commentsList += getComment(comment);
+        }
+        $('.comments-list').html(commentsList);
+        $('.pages').html(getPagesNumber(data.commentsLastPage, 1));
       },
       error: function (error) {
         if (error.status === 401) {
@@ -44,3 +30,47 @@ $('.comment-form').on('submit', function (e) {
     $('.comment-input').val('');
   }
 });
+
+function getComment(comment) {
+  return `<div class="comment">
+<div class="customer-avatar">
+  <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
+    >${comment.user.name}</span
+  >
+</div>
+<div class="comment-content">
+  <span class="light-gray-color">${comment.body}</span>
+</div>`;
+}
+
+function getPagesNumber(lastPage, page) {
+  let res = `
+<nav
+  aria-label="Page navigation example"
+  class="d-flex justify-content-center"
+>`;
+  if (lastPage > 0) {
+    res += `<ul class="pagination"><li class="page-item cursor-pointer"><a class="page-link">First</a></li>`;
+    let i = Number(page) > 5 ? Number(page) - 4 : 1;
+    if (i !== 1) {
+      res += `<li class="page-item cursor-pointer"><a class="page-link">...</a></li>`;
+    }
+    for (; i <= Number(page) + 4 && i <= lastPage; i++) {
+      if (i == page) {
+        res += `<li class="page-item cursor-pointer active"><a class="page-link">${i}</a></li>`;
+      } else {
+        res += `<li class="page-item cursor-pointer"><a class="page-link">${i}</a></li>`;
+      }
+      if (i == Number(page) + 4 && i < lastPage) {
+        res += `<li class="page-item cursor-pointer"><a class="page-link">...</a></li>`;
+      }
+    }
+    res += `<li class="page-item cursor-pointer">
+  <a class="page-link">Last</a>
+</li>`;
+    res += `</ul>`;
+  }
+
+  res += `</nav>`;
+  return res;
+}

@@ -13,4 +13,6 @@ router.post(
   commentsApiController.postComment
 );
 
+router.get('/comments/:productId', commentsApiController.getComments);
+
 module.exports = router;
