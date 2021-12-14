@@ -22,6 +22,8 @@ $('.comment-form').on('submit', function (e) {
       error: function (error) {
         if (error.status === 401) {
           alert('Please Login');
+        } else if (error.status === 402) {
+          alert('Sorry, You have not bought this product yet');
         } else {
           alert('Something bad happend');
         }
@@ -53,7 +55,7 @@ $('.pages').on('click', '.page-link', function (e) {
         }
         $('.comments-list').html(commentsList);
         $('.pages').html(
-          getPagesNumber(data.commentsLastPage, commentsCurrentPage )
+          getPagesNumber(data.commentsLastPage, commentsCurrentPage)
         );
       },
       error: function (error) {

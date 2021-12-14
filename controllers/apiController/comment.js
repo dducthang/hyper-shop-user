@@ -1,6 +1,17 @@
 const CommentService = require('../../models/services/commentService');
+const OrderService = require('../../models/services/orderService');
 
-exports.postComment = (req, res, next) => {
+exports.postComment = async (req, res, next) => {
+  const checkBought = await OrderService.isBoughtProduct(
+    req.user._id,
+    req.params.productId
+  );
+  if (!checkBought) {
+    return res
+      .status(402)
+      .send({ error: 'Customer have not bought this product yet' });
+  }
+
   const commentsPerPage = 10;
   const comment = {
     product: req.params.productId,
