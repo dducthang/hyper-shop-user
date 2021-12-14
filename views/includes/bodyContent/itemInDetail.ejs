@@ -146,6 +146,7 @@
     </div>
     <% } %>
   </div>
+
   <div class="pages">
     <nav
       aria-label="Page navigation example"
@@ -170,10 +171,14 @@
         commentsLastPage) { %>
         <li class="page-item cursor-pointer"><a class="page-link">...</a></li>
         <% } %> <% } %> <% if (commentsCurrentPage == commentsLastPage) { %>
-        <li class="page-item cursor-pointer"><a class="page-link">Last</a></li>
+        <li class="page-item cursor-pointer">
+          <a class="page-link" id="<%=commentsLastPage%>">Last</a>
+        </li>
         <% } else { %>
         <li>
-          <a class="page-link cursor-pointer">Last</a>
+          <a class="page-link cursor-pointer" id="<%=commentsLastPage%>"
+            >Last</a
+          >
         </li>
         <% } %>
       </ul>
@@ -194,6 +199,8 @@
         placeholder="leave a comment....."
       />
     </div>
-    <button class="btn comment-button">Post</button>
+    <button class="btn btn-info comment-button">Post</button>
   </form>
 </div>
+
+<input type="hidden" id="productId" value="<%=product._id%>" />

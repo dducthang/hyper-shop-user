@@ -31,6 +31,38 @@ $('.comment-form').on('submit', function (e) {
   }
 });
 
+$('.pages').on('click', '.page-link', function (e) {
+  e.preventDefault();
+  let commentsCurrentPage = $(this).text();
+  if (commentsCurrentPage === 'First') commentsCurrentPage = 1;
+  else if (commentsCurrentPage === 'Last')
+    commentsCurrentPage = $(this).attr('id');
+  const productId = $('#productId').val();
+  const url = 'http://localhost:3000/api/comments/' + productId;
+  if (commentsCurrentPage !== '...') {
+    $.ajax({
+      url,
+      data: { page: commentsCurrentPage },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        let commentsList = '';
+        //reverse để hiện thị bình luận mới nhất xuống dưới
+        for (comment of data.comments.reverse()) {
+          commentsList += getComment(comment);
+        }
+        $('.comments-list').html(commentsList);
+        $('.pages').html(
+          getPagesNumber(data.commentsLastPage, commentsCurrentPage )
+        );
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+  }
+});
+
 function getComment(comment) {
   return `<div class="comment">
 <div class="customer-avatar">
@@ -40,6 +72,8 @@ function getComment(comment) {
 </div>
 <div class="comment-content">
   <span class="light-gray-color">${comment.body}</span>
+</div>
+<div class="divide"></div>
 </div>`;
 }
 
@@ -66,7 +100,7 @@ function getPagesNumber(lastPage, page) {
       }
     }
     res += `<li class="page-item cursor-pointer">
-  <a class="page-link">Last</a>
+  <a class="page-link" id="${lastPage}">Last</a>
 </li>`;
     res += `</ul>`;
   }

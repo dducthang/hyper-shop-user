@@ -21,3 +21,5 @@ exports.countComments = productId => {
 exports.addComment = comment => {
   return Comment.create(comment);
 };
+
+
