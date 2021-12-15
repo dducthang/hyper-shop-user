@@ -18,9 +18,12 @@ router.post(
   })
 );
 
+//router.post("/signin", checkNotAuthenticated, authController.postLogin);
+
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/auth/signin");
+  console.log(req.session)
 });
 
 module.exports = router;

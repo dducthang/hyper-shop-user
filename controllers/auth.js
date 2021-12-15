@@ -1,5 +1,6 @@
 const Product = require('../models/product'); // nhớ pass categories cho tất cả các view !!!
 const authService = require('../models/services/authService');
+const passport = require('passport');
 
 exports.getSignup = async (req, res, next) => {
   res.render('auth/signup', {
@@ -15,7 +16,6 @@ exports.signup = async (req, res, next) => {
       errorCode: 1,
       categories: await Product.getCategoriesQuantity(),
     });
-
   }
   try {
     await authService.signup({ name, email, phone, password });
@@ -36,4 +36,11 @@ exports.getSignin = async (req, res, next) => {
     user: req.user
   });
 };
+
+exports.postLogin = (req, rex, next) =>{
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+}
 
