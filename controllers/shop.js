@@ -5,6 +5,8 @@ exports.getIndex = async (req, res, next) => {
     categories: await Product.getCategoriesQuantity(),
     user: req.user
   });
+  req.session.cart={};
+  console.log(req.session);
 };
 
 
