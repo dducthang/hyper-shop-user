@@ -3,7 +3,7 @@
     <form method="get" action="/cart/checkout">
         <h1>Shopping cart</h1>
         <% if(cart) { %>
-        <p class="text-muted">You currently have <%= cart.orderItems.length%> item(s) in your cart.</p>
+        <p class="text-muted">You currently have <%= cart.length%> item(s) in your cart.</p>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -17,22 +17,22 @@
                 </thead>
                 <tbody>
                     <% let total = 0%>
-                    <% for (let i=0;i<cart.orderItems.length;i++) { %>
-                    <tr id="row-<%=cart.orderItems[i]._id%>">
-                        <td><a href="/products/<%=cart.orderItems[i].product._id%>"><img src="<%=cart.orderItems[i].product.image%>" alt="<%=cart.orderItems[i].product.name%>"></a></td>
-                        <td><a href="/products/<%=cart.orderItems[i].product._id%>"><%=cart.orderItems[i].product.name%></a></td>
-                        <td id="quantity-<%=cart.orderItems[i]._id%>">
-                            <input type="number" value="<%=cart.orderItems[i].quantity%>" id="<%=cart.orderItems[i]._id%>" class="form-control item-quantity">
+                    <% for (let i=0;i<cart.length;i++) { %>
+                    <tr id="row-<%=cart[i].product._id%>">
+                        <td><a href="/products/<%=cart[i].product._id%>"><img src="<%=cart[i].product.image%>" alt="<%=cart[i].product.name%>"></a></td>
+                        <td><a href="/products/<%=cart[i].product._id%>"><%=cart[i].product.name%></a></td>
+                        <td>
+                            <input type="number" value="<%=cart[i].quantity%>" id="<%=cart[i].product._id%>" class="form-control item-quantity">
                         </td>
-                        <td>$<%=cart.orderItems[i].product.price%></td>
+                        <td>$<%=cart[i].product.price%></td>
                         <td>$0.00</td>
                         <td>
                             $
-                            <input id="totalPerItem-<%=cart.orderItems[i]._id%>" readonly style="border: none; outline: none; width: 40px;"  value="<%=cart.orderItems[i].quantity*cart.orderItems[i].product.price%>"/>
+                            <input id="totalPerItem-<%=cart[i].product._id%>" readonly style="border: none; outline: none; width: 40px;"  value="<%=cart[i].quantity*cart[i].product.price%>"/>   
                         </td>
-                        <td><i class="fa fa-trash-o delete-product-btn" id="<%=cart.orderItems[i]._id%>"></i></td>
+                        <td><i class="fa fa-trash-o delete-product-btn" id="<%=cart[i].product._id%>"></i></td>
                     </tr>
-                    <%total += cart.orderItems[i].quantity*cart.orderItems[i].product.price%>
+                    <%total += cart[i].quantity*cart[i].product.price%>
                     <% } %>
                 </tbody>
                 <tfoot>
@@ -52,13 +52,14 @@
                 <a href="/products" class="btn btn-outline-secondary"><i
                         class="fa fa-chevron-left"></i> Continue shopping</a>
                     </div>
-            <% if(cart) { %>        
+            <% if(cart) { %>
             <div class="right">
-                <button type="submit" class="btn btn-primary">
-                    Proceed to checkout <i class="fa fa-chevron-right"></i>
-                </button>
+                <!-- <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Update cart</button> -->
+                
+                <button type="submit" class="btn btn-primary">Proceed to checkout <i
+                        class="fa fa-chevron-right"></i></button>
             </div>
-            <% } %>
+            <% }%>
         </div>
     </form>
 </div>

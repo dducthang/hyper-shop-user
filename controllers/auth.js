@@ -1,6 +1,5 @@
 const Product = require('../models/product'); // nhớ pass categories cho tất cả các view !!!
 const authService = require('../models/services/authService');
-const passport = require('passport');
 
 exports.getSignup = async (req, res, next) => {
   res.render('auth/signup', {
@@ -15,6 +14,7 @@ exports.signup = async (req, res, next) => {
     res.render('auth/signup', {
       errorCode: 1,
       categories: await Product.getCategoriesQuantity(),
+      user:req.user
     });
   }
   try {
@@ -23,9 +23,11 @@ exports.signup = async (req, res, next) => {
     //sửa code đăng nhập sau khi đăng kí sau
   } catch (e) {
     //catch loi trung email (dong 9 file authService)
+    console.log(e);
     res.render('auth/signup', {
       errorCode: 2,
       categories: await Product.getCategoriesQuantity(),
+      user:req.user
     }); //nếu catch đc bầy kỳ lỗi nào thì chuyển về đăng kí
   }
 };
@@ -37,10 +39,11 @@ exports.getSignin = async (req, res, next) => {
   });
 };
 
-exports.postLogin = (req, rex, next) =>{
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
-}
+// exports.postLogin = async (req, rex, next) =>{
+//   await passport.authenticate("local", {
+//     successRedirect: "/",
+//     failureRedirect: "/",
+//   })
+//   console.log("reach this shit");
+// }
 

@@ -20,7 +20,11 @@
                             </nav>
                         </div>
                         <div id="basket" class="col-lg-9">
-                            <%- include('../includes/cart/cartTable')%>
+                            <% if(user) { %>
+                                <%- include('../includes/cart/cartTable', {cart}) %>
+                            <% } else {  %>
+                                <%- include('../includes/cart/cartTableNoAuth', {cart}) %>
+                            <% } %>
                             <%- include('../includes/bodyContent/relatedProducts')%>
                         </div>
                         <!-- ORDER SUMMARY =========================================== -->
@@ -34,5 +38,7 @@
 
 
 <%-include('../includes/footer/foot')%>
+<script src="/ajax/cart-ajax.js"></script>
+
 </body>
 </html>
