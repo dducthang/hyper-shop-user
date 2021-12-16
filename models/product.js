@@ -62,11 +62,16 @@ const Product = mongoose.model('Product', productSchema);
 function countProducts(filters) {
   return Product.find(filters).countDocuments();
 }
-function getProducts(filters) {
+
+function getProducts(filters) {//có trùng bên productService
   return Product.find(filters);
 }
 function getProduct(id) {
   return Product.findById(id);
+}
+function getProductById(id){
+  const product = Product.findOne({_id:id});
+  return product;
 }
 async function getCategoriesQuantity() {
   let catsQty = [];
@@ -88,10 +93,12 @@ function test(prop) {
     console.log(p);
   });
 }
+
 module.exports = {
   countProducts,
   getProducts,
   getProduct,
   getCategoriesQuantity,
+  getProductById,
   test, //để query xem tung thuộc tính trên db có giá trị nào
 };

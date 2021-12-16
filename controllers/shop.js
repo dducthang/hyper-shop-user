@@ -6,7 +6,6 @@ exports.getIndex = async (req, res, next) => {
     user: req.user
   });
   req.session.cart={};
-  console.log(req.session);
 };
 
 
