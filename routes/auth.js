@@ -15,15 +15,19 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/auth/signin",
+    failureFlash: true,
   })
 );
-
-//router.post("/signin", checkNotAuthenticated, authController.postLogin);
-
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/auth/signin");
-  console.log(req.session)
+  console.log(req.session);
 });
+
+router.get("/reset", authController.getReset);
+router.post("/reset", authController.postReset);
+
+router.get("/reset/:token", authController.getNewPassword);
+router.post("/new-password", authController.postNewPassword);
 
 module.exports = router;
