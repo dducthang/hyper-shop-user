@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
+const mongoose = require("mongoose");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,16 +11,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error('Email is invalid');
-      }
-    },
+    validate: [validator.isEmail, new Error("invalid email")],
   },
   password: {
     type: String,
     required: true,
   },
+  resetToken: String,
+  resetTokenExpiration: Date,
   avatar: String,
   address: {
     type: String,
@@ -41,6 +39,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

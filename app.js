@@ -3,6 +3,7 @@ const path = require("path");
 const morgan = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
+const flash = require("express-flash");
 const MongoDbStore = require("connect-mongodb-session")(session);
 
 require("./db/mongoose.js");
@@ -23,8 +24,8 @@ const userRouter = require("./routes/user");
 const app = express();
 const store = new MongoDbStore({
   uri: process.env.CONNECTION_STRING,
-  collection:'sessions',//tên bảng lưu session trong mongo là sessions
-})
+  collection: "sessions", //tên bảng lưu session trong mongo là sessions
+});
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -32,13 +33,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("tiny"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); //để parse request về json
+app.use(flash());
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
-    store: store//khai báo nơi lưu trữ session là store 
+    store: store, //khai báo nơi lưu trữ session là store
   })
 );
 
