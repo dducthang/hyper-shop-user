@@ -1,4 +1,5 @@
-const Product = require('../models/product'); // nhớ pass categories cho tất cả các view
+const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
+
 const CommentService = require('../models/services/commentService');
 
 exports.getProducts = (req, res, next) => {
@@ -23,13 +24,13 @@ exports.getProducts = (req, res, next) => {
 
   const sortBy = req.query.sortBy || 'price';
 
-  Product.countProducts(filters)
+  ProductService.countProducts(filters)
     .then(n => {
       productsCount = n;
       if (req.query.productsPerPage === 'all') {
         productsPerPage = n;
       }
-      return Product.getProducts(filters)
+      return ProductService.getProducts(filters)
         .collation({ locale: 'en' })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
@@ -43,7 +44,7 @@ exports.getProducts = (req, res, next) => {
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-        categories: await Product.getCategoriesQuantity(),
+        categories: await ProductService.getCategoriesQuantity(),
         user: req.user,
       });
     });
@@ -52,7 +53,7 @@ exports.getProducts = (req, res, next) => {
 exports.getProductDetail = async (req, res, next) => {
   const commentsPerPage = 10;
   const productId = req.params.productId;
-  const product = await Product.getProduct(productId);
+  const product = await ProductService.getProduct(productId);
   const comments = await CommentService.getProductComments(productId);
   const commentsCount = await CommentService.countComments(productId);
   res.render('shop/productDetail', {
@@ -61,7 +62,7 @@ exports.getProductDetail = async (req, res, next) => {
     comments,
     commentsCurrentPage: 1,
     commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
-    categories: await Product.getCategoriesQuantity(),
+    categories: await ProductService.getCategoriesQuantity(),
     user: req.user,
   });
 };
