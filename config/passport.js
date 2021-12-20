@@ -15,11 +15,11 @@ function initialize(passport) {
     try {
       const user = await authService.getUserLean({ email }); //lean() trả về plain data, mình chỉ cần xác định sự tồn tại của user
       if (!user) {
-        return done(null, false, { message: "Email not exsists" });
+        return done(null, false, { message: "Wrong email or password" });
       }
       const matchPassword = await isValidPassword(user, password);
       if (!matchPassword) {
-        return done(null, false, { message: "Wrong password" });
+        return done(null, false, { message: "Wrong email or password" });
       }
       return done(null, user);
     } catch (e) {
