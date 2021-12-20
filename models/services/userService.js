@@ -5,10 +5,10 @@ exports.newUser = user => {
   return new User(user);
 };
 
-exports.saveUser = async user => {
-  await user.save();
+exports.saveUser = user => {
+ user.save();
 };
 
-exports.getUser = async filter => {
-  return await User.findOne(filter);
+exports.getUser = filter => {
+  return User.findOne(filter);
 };

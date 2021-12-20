@@ -1,5 +1,5 @@
 const Product = require('../models/product'); // nhớ pass categories cho tất cả các view
-//const getCategoriesQuantity = require('../util/getCategoriesQuantity');
+const CommentService = require('../models/services/commentService');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
@@ -44,19 +44,24 @@ exports.getProducts = (req, res, next) => {
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
         categories: await Product.getCategoriesQuantity(),
-        user: req.user
+        user: req.user,
       });
     });
 };
 
-exports.getProductDetail = (req, res, next) => {
+exports.getProductDetail = async (req, res, next) => {
+  const commentsPerPage = 10;
   const productId = req.params.productId;
-  Product.getProduct(productId).then(async function (product) {
-    res.render('shop/productDetail', {
-      product: product,
-      pageTitle: 'Product detail',
-      categories: await Product.getCategoriesQuantity(),
-      user: req.user
-    });
+  const product = await Product.getProduct(productId);
+  const comments = await CommentService.getProductComments(productId);
+  const commentsCount = await CommentService.countComments(productId);
+  res.render('shop/productDetail', {
+    product: product,
+    pageTitle: 'Product detail',
+    comments,
+    commentsCurrentPage: 1,
+    commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
+    categories: await Product.getCategoriesQuantity(),
+    user: req.user,
   });
 };

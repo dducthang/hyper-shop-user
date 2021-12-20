@@ -95,10 +95,12 @@ function test(prop) {
 }
 
 module.exports = {
+  Product, //cần sửa đống dưới vô service
   countProducts,
   getProducts,
   getProduct,
   getCategoriesQuantity,
   getProductById,
   test, //để query xem tung thuộc tính trên db có giá trị nào
+
 };

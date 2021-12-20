@@ -120,31 +120,87 @@
 <div class="feedback">
   <span class="medium-text">Product review and feedback</span>
   <div class="divide"></div>
-  <% for (let i=0;i<3;i++){ %>
-  <div class="comment">
-    <div class="customer-avatar">
-      <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
-        >Thang Dang</span
-      >
-    </div>
-    <div class="comment-content">
-      <span class="light-gray-color"
-        >this is the best shoes that i have ever owned</span
-      >
-    </div>
-    <div class="response">
-      <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
-        >Response by Obaju Shop</span
-      >
-      <div class="response-content">
-        Thank you for your feedback. This is our pleasure
+  <div class="comments-list">
+    <% for (comment of comments.reverse()){ %>
+    <div class="comment">
+      <div class="customer-avatar">
+        <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
+          ><%=comment.user.name%></span
+        >
       </div>
-    </div>
-    <div class="divide"></div>
-  </div>
-  <% } %>
+      <div class="comment-content">
+        <span class="light-gray-color"><%=comment.body%></span>
+      </div>
 
-  <div class="add-comment">
-    <input type="text" placeholder="leave a comment....." />
+      <%/* Shop Response %>
+      <div class="response">
+        <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
+          >Response by Obaju Shop</span
+        >
+        <div class="response-content">
+          Thank you for your feedback. This is our pleasure
+        </div>
+      </div>
+      <%*/%>
+      <div class="divide"></div>
+    </div>
+    <% } %>
   </div>
+
+  <div class="pages">
+    <nav
+      aria-label="Page navigation example"
+      class="d-flex justify-content-center"
+    >
+      <% if (commentsLastPage > 0) { %>
+      <ul class="pagination">
+        <li class="page-item cursor-pointer"><a class="page-link">First</a></li>
+        <% let i = (Number(commentsCurrentPage) > 5 ?
+        Number(commentsCurrentPage) - 4 : 1) %> <% if (i !== 1) { %>
+        <li class="page-item cursor-pointer"><a class="page-link">...</a></li>
+        <% } %> <% for (; i <= (Number(commentsCurrentPage) + 4) && i <=
+        commentsLastPage; i++) { %> <% if (i == commentsCurrentPage) { %>
+        <li class="page-item cursor-pointer active">
+          <a class="page-link"><%= i %></a>
+        </li>
+        <% } else { %>
+        <li class="page-item cursor-pointer">
+          <a class="page-link"><%= i %></a>
+        </li>
+        <% } %> <% if (i == Number(commentsCurrentPage) + 4 && i <
+        commentsLastPage) { %>
+        <li class="page-item cursor-pointer"><a class="page-link">...</a></li>
+        <% } %> <% } %> <% if (commentsCurrentPage == commentsLastPage) { %>
+        <li class="page-item cursor-pointer">
+          <a class="page-link" id="<%=commentsLastPage%>">Last</a>
+        </li>
+        <% } else { %>
+        <li>
+          <a class="page-link cursor-pointer" id="<%=commentsLastPage%>"
+            >Last</a
+          >
+        </li>
+        <% } %>
+      </ul>
+      <% } %>
+    </nav>
+  </div>
+
+  <form
+    class="comment-form"
+    action="/api/comments/<%=product._id%>"
+    method="post"
+  >
+    <div class="add-comment">
+      <input
+        type="text"
+        name="comment"
+        class="comment-input"
+        placeholder="leave a comment....."
+      />
+    </div>
+    <button class="btn btn-info comment-button">Post</button>
+  </form>
 </div>
+
+<input type="hidden" id="productId" value="<%=product._id%>" />
