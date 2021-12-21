@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getSignup = async (req, res, next) => {
-  res.render("auth/signup", {
+  res.status(200).render("auth/signup", {
     categories: await ProductService.getCategoriesQuantity(),
     user: req.user,
   });
@@ -46,7 +46,7 @@ exports.signup = async (req, res, next) => {
     errors.push({ msg: "Email already registered" });
   }
   if (errors.length > 0) {
-    return res.render("auth/signup", {
+    return res.status(400).render("auth/signup", {
       errors: errors,
       categories: await ProductService.getCategoriesQuantity(),
       user: user,
@@ -55,7 +55,7 @@ exports.signup = async (req, res, next) => {
     try {
       //validation pass -> save to db
       await authService.signup({ name, email, phone, password });
-      return res.render("auth/signup", {
+      return res.status(200).render("auth/signup", {
         success_msg: "Sign up succesfully!!!",
         categories: await ProductService.getCategoriesQuantity(),
         user: req.user,
@@ -64,7 +64,7 @@ exports.signup = async (req, res, next) => {
       //--------TODO-------
       //Lỗi trong lúc create trong mongodb, chưa handle
       console.log(e);
-      res.render("auth/signup", {
+      res.status(400).render("auth/signup", {
         categories: await ProductService.getCategoriesQuantity(),
         user: user,
       });

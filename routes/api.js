@@ -14,11 +14,11 @@ router.post('/cart', cartApiController.postCartApi);
 router.post('/cart/change-quantity', cartApiController.changeItemQuantity);
 
 router.post(
-  '/comments/:productId',
+  '/comments/:productId([0-9a-fA-F]{24})',
   checkAuthenticatedForApi,
   commentsApiController.postComment
 );
 
-router.get('/comments/:productId', commentsApiController.getComments);
+router.get('/comments/:productId([0-9a-fA-F]{24})', commentsApiController.getComments);
 
 module.exports = router;

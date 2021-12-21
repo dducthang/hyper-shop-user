@@ -37,7 +37,7 @@ exports.getProducts = (req, res, next) => {
         .limit(productsPerPage);
     })
     .then(async function (products) {
-      res.render('shop/products', {
+      res.status(200).render('shop/products', {
         pageTitle: 'Products',
         products,
         productsPerPage,
@@ -56,7 +56,7 @@ exports.getProductDetail = async (req, res, next) => {
   const product = await ProductService.getProduct(productId);
   const comments = await CommentService.getProductComments(productId);
   const commentsCount = await CommentService.countComments(productId);
-  res.render('shop/productDetail', {
+  res.status(200).render('shop/productDetail', {
     product: product,
     pageTitle: 'Product detail',
     comments,

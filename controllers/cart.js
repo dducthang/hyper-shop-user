@@ -18,18 +18,17 @@ exports.getCart = async (req, res, next) => {
     } else {
       userCart = await cartService.getCartByUserId(req.user); //nếu chưa có cart ảo thì tìm cart thật
     }
-    res.render('shop/cart', {
+    res.status(200).render('shop/cart', {
       categories: await ProductService.getCategoriesQuantity(),
       user: req.user,
       cart: userCart,
     });
   } else {
-    res.render('shop/cart', {
+    res.status(200).render('shop/cart', {
       categories: await ProductService.getCategoriesQuantity(),
       user: req.user,
       cart: req.session.cart,
     });
-    console.log(req.user);
   }
 };
 
@@ -81,7 +80,7 @@ exports.addToCart = async (req, res, next) => {
 };
 
 exports.getCheckout = async (req, res, next) => {
-  res.render('shop/checkout', {
+  res.status(200).render('shop/checkout', {
     categories: await ProductService.getCategoriesQuantity(),
     user: req.user,
   });
