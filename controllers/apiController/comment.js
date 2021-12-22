@@ -6,11 +6,11 @@ exports.postComment = async (req, res, next) => {
     req.user._id,
     req.params.productId
   );
-  if (!checkBought) {
-    return res
-      .status(402)
-      .send({ error: 'Customer have not bought this product yet' });
-  }
+  // if (!checkBought) {
+  //   return res
+  //     .status(402)
+  //     .send({ error: 'Customer have not bought this product yet' });
+  // }
 
   const commentsPerPage = 10;
   const comment = {
