@@ -49,6 +49,10 @@ exports.getProducts = (req, res, next) => {
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
         categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
+        closureTypes: await ProductService.getClosureTypes(),
+        shoesHeights: await ProductService.getShoesHeights(),
+        materials: await ProductService.getMaterials(),
         user: req.user,
       });
     });

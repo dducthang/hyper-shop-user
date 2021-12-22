@@ -9,18 +9,14 @@
   <div class="card-body">
     <form>
       <div class="form-group brand-form">
+        <%for(brand of brands){%>
         <div class="checkbox">
-          <label> <input type="checkbox" value="nike" /> Nike </label>
+          <label>
+            <input type="checkbox" value="<%=brand._id%>" />
+            <%=brand._id.replace(/(^|\s)\S/g, letter => letter.toUpperCase());%>
+          </label>
         </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="adidas" /> Adidas </label>
-        </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="vans" /> Vans </label>
-        </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="chaco" /> Chaco </label>
-        </div>
+        <%}%>
       </div>
       <button class="btn btn-default btn-sm btn-primary brand-button">
         <i class="fa fa-pencil"></i> Apply

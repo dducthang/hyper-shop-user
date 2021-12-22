@@ -10,15 +10,15 @@
   <div class="card-body">
     <form>
       <div class="form-group shoesHeight-form">
+        <%for(shoesHeight of shoesHeights){%>
         <div class="checkbox">
-          <label> <input type="checkbox" value="high" /> High top </label>
+          <label>
+            <input type="checkbox" value="<%=shoesHeight._id%>" />
+            <%=shoesHeight._id.replace(/(^|\s)\S/g, letter =>
+            letter.toUpperCase());%>
+          </label>
         </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="mid" /> Mid top </label>
-        </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="low" /> Low top </label>
-        </div>
+        <%}%>
       </div>
       <button class="btn btn-default btn-sm btn-primary shoesHeight-button">
         <i class="fa fa-pencil"></i> Apply
