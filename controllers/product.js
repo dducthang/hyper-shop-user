@@ -6,8 +6,12 @@ exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 12;
   let productsCount;
+  let category = req.query.category;
+  if (category === 'all categories') {
+    category = null; //remove
+  }
   const filters = {
-    category: req.query.category,
+    category,
     brand: req.query.brand,
     color: req.query.color,
     sex: req.query.sex,
@@ -27,7 +31,7 @@ exports.getProducts = (req, res, next) => {
   ProductService.countProducts(filters)
     .then(n => {
       productsCount = n;
-      if (req.query.productsPerPage === 'all') {
+      if (req.query.productsPerPage === 'All') {
         productsPerPage = n;
       }
       return ProductService.getProducts(filters)
