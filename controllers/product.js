@@ -71,6 +71,7 @@ exports.getProductDetail = async (req, res, next) => {
     commentsCurrentPage: 1,
     commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };
