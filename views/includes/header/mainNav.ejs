@@ -52,50 +52,25 @@
                   <ul class="list-unstyled mb-3">
                     <%for(c of categories.catsQty){%>
                     <li class="nav-item">
-                      <a href="/products?category=<%=c.name%>" class="nav-link"
+                      <a href="/products?category=<%=c._id%>" class="nav-link"
                         ><%=c._id%></a
                       >
                     </li>
                     <%}%>
                   </ul>
                 </div>
-                <% /* %>
                 <div class="col-md-6 col-lg-3">
                   <h5>Brand</h5>
                   <ul class="list-unstyled mb-3">
+                    <%for(brand of brands){%>
                     <li class="nav-item">
-                      <a href="/products" class="nav-link">Nike</a>
+                      <a href="/products?brand=<%=brand._id%>" class="nav-link"
+                        ><%=brand._id%></a
+                      >
                     </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Adidas</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Puma</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">New Balance</a>
-                    </li>
+                    <%}%>
                   </ul>
                 </div>
-
-                <div class="col-md-6 col-lg-3">
-                  <h5>Price</h5>
-                  <ul class="list-unstyled mb-3">
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">$20-$50</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">$50-$100</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">$100-$150</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/products" class="nav-link">Over $150</a>
-                    </li>
-                  </ul>
-                </div>
-                <% */ %>
               </div>
             </li>
           </ul>

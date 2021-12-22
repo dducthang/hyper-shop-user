@@ -20,12 +20,14 @@ exports.getCart = async (req, res, next) => {
     }
     res.status(200).render('shop/cart', {
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: req.user,
       cart: userCart,
     });
   } else {
     res.status(200).render('shop/cart', {
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: req.user,
       cart: req.session.cart,
     });
@@ -82,6 +84,7 @@ exports.addToCart = async (req, res, next) => {
 exports.getCheckout = async (req, res, next) => {
   res.status(200).render('shop/checkout', {
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };

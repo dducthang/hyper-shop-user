@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport(
 exports.getSignup = async (req, res, next) => {
   res.status(200).render("auth/signup", {
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };
@@ -49,6 +50,7 @@ exports.signup = async (req, res, next) => {
     return res.status(400).render("auth/signup", {
       errors: errors,
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: user,
     });
   } else if (errors.length == 0) {
@@ -58,6 +60,7 @@ exports.signup = async (req, res, next) => {
       return res.status(200).render("auth/signup", {
         success_msg: "Sign up succesfully!!!",
         categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
         user: req.user,
       });
     } catch (e) {
@@ -66,6 +69,7 @@ exports.signup = async (req, res, next) => {
       console.log(e);
       res.status(400).render("auth/signup", {
         categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
         user: user,
       });
     }
@@ -75,6 +79,7 @@ exports.signup = async (req, res, next) => {
 exports.getSignin = async (req, res, next) => {
   res.render("auth/signin", {
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };
@@ -82,6 +87,7 @@ exports.getReset = async (req, res, next) => {
   res.render("auth/reset", {
     user: req.user,
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
   });
 };
 exports.postReset = async (req, res, next) => {
@@ -91,6 +97,7 @@ exports.postReset = async (req, res, next) => {
       errors: [{ msg: "This email is not registed yet!!!" }],
       user: req.user,
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   crypto.randomBytes(32, async (err, buffer) => {
@@ -109,6 +116,7 @@ exports.postReset = async (req, res, next) => {
       success_msg: "Check your email to reset password",
       user: req.user,
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
     transporter.sendMail({
       to: user.email,
@@ -136,11 +144,13 @@ exports.getNewPassword = async (req, res, next) => {
       errors: [{ msg: "Reset token expired, request a new one" }],
       user: req.user,
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   res.render("auth/newpassword", {
     user: req.user,
     categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     userId: user._id,
     resetToken: req.params.token,
   });
@@ -160,6 +170,7 @@ exports.postNewPassword = async (req, res, next) => {
       errors: [{ msg: "Reset token expired, request a new one" }],
       user: req.user,
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   //if token is valid
@@ -167,6 +178,7 @@ exports.postNewPassword = async (req, res, next) => {
     res.render("auth/signin", {
       success_msg: "Reset password successfully, login here",
       categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: user,
     });
     //clear token and reset password
