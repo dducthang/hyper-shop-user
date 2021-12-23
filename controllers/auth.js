@@ -14,6 +14,8 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getSignup = async (req, res, next) => {
+  console.log(req.user);
+
   res.render("auth/signup", {
     categories: await Product.getCategoriesQuantity(),
     user: req.user,
@@ -73,6 +75,7 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.getSignin = async (req, res, next) => {
+  console.log(req.user);
   res.render("auth/signin", {
     categories: await Product.getCategoriesQuantity(),
     user: req.user,

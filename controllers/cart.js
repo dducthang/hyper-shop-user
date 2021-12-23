@@ -81,6 +81,7 @@ exports.addToCart = async (req, res, next) => {
 };
 
 exports.getCheckout = async (req, res, next) =>{
+  console.log(req.user);
   res.render('shop/checkout',{
     categories: await Product.getCategoriesQuantity(),
     user: req.user,
