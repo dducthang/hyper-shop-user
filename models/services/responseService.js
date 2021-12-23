@@ -4,11 +4,10 @@ const Response = require('../response');
 //output: các response (của shop) cho từng comment
 exports.getResponses = async comments => {
   const responses = [];
-  comments.forEach(async comment => {
+  for (comment of comments) {
     const commentRes = await Response.find({ comment: comment._id });
     responses.push({ comment: comment._id, commentRes });
-    console.log(responses);
-  });
+  }
 
   return responses;
 };

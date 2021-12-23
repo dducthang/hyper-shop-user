@@ -1,11 +1,11 @@
 const CommentService = require('../../models/services/commentService');
-const OrderService = require('../../models/services/orderService');
+const ResponseService = require('../../models/services/responseService');
 
 exports.postComment = async (req, res, next) => {
-  const checkBought = await OrderService.isBoughtProduct(
-    req.user._id,
-    req.params.productId
-  );
+  // const checkBought = await OrderService.isBoughtProduct(
+  //   req.user._id,
+  //   req.params.productId
+  // );
   // if (!checkBought) {
   //   return res
   //     .status(402)
@@ -24,9 +24,11 @@ exports.postComment = async (req, res, next) => {
         req.params.productId
       );
       const count = await CommentService.countComments(req.params.productId);
+      const responses = await ResponseService.getResponses(comments);
       res.status(201).send({
         comments,
         commentsLastPage: Math.ceil(count / commentsPerPage),
+        responses,
       });
     })
     .catch(e => {
@@ -44,5 +46,6 @@ exports.getComments = async (req, res, next) => {
   );
   const count = await CommentService.countComments(req.params.productId);
   const commentsLastPage = Math.ceil(count / commentsPerPage);
-  res.status(200).send({ comments, commentsLastPage });
+  const responses = await ResponseService.getResponses(comments);
+  res.status(200).send({ comments, commentsLastPage, responses });
 };

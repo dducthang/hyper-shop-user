@@ -14,7 +14,7 @@ $('.comment-form').on('submit', function (e) {
         let commentsList = '';
         //reverse để hiện thị bình luận mới nhất xuống dưới
         for (comment of data.comments.reverse()) {
-          commentsList += getComment(comment);
+          commentsList += getComment(comment, data.responses);
         }
         $('.comments-list').html(commentsList);
         $('.pages').html(getPagesNumber(data.commentsLastPage, 1));
@@ -47,11 +47,10 @@ $('.pages').on('click', '.page-link', function (e) {
       data: { page: commentsCurrentPage },
       dataType: 'json',
       success: function (data) {
-        console.log(data);
         let commentsList = '';
         //reverse để hiện thị bình luận mới nhất xuống dưới
         for (comment of data.comments.reverse()) {
-          commentsList += getComment(comment);
+          commentsList += getComment(comment, data.responses);
         }
         $('.comments-list').html(commentsList);
         $('.pages').html(
@@ -65,8 +64,8 @@ $('.pages').on('click', '.page-link', function (e) {
   }
 });
 
-function getComment(comment) {
-  return `<div class="comment">
+function getComment(comment, responses) {
+  let resHtml = `<div class="comment">
 <div class="customer-avatar">
   <i class="far fa-user-circle medium-text"></i>&nbsp &nbsp<span
     >${comment.user.name}</span
@@ -74,9 +73,29 @@ function getComment(comment) {
 </div>
 <div class="comment-content">
   <span class="light-gray-color">${comment.body}</span>
-</div>
-<div class="divide"></div>
 </div>`;
+  resHtml += getResponses(comment._id, responses);
+  resHtml += `<div class="divide"></div>
+  </div>`;
+  return resHtml;
+}
+
+function getResponses(commentId, responses) {
+  let resHtml = ``;
+  for (response of responses) {
+    if (response.comment == commentId) {
+      for (res of response.commentRes) {
+        resHtml += `<div class="response">
+ <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
+   >Response by Hyper Shop</span
+ >
+ <div class="response-content">${res.body}</div>
+</div>`;
+      }
+    }
+  }
+
+  return resHtml;
 }
 
 function getPagesNumber(lastPage, page) {
