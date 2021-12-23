@@ -1,6 +1,7 @@
 const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
 
 const CommentService = require('../models/services/commentService');
+const ResponseService = require('../models/services/responseService');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
@@ -63,11 +64,13 @@ exports.getProductDetail = async (req, res, next) => {
   const productId = req.params.productId;
   const product = await ProductService.getProduct(productId);
   const comments = await CommentService.getProductComments(productId);
+  const responses = await ResponseService.getResponses(comments);
   const commentsCount = await CommentService.countComments(productId);
   res.status(200).render('shop/productDetail', {
     product: product,
     pageTitle: 'Product detail',
     comments,
+    responses,
     commentsCurrentPage: 1,
     commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
     categories: await ProductService.getCategoriesQuantity(),

@@ -131,17 +131,15 @@
       <div class="comment-content">
         <span class="light-gray-color"><%=comment.body%></span>
       </div>
-
-      <%/* Shop Response %>
+      <%for(response of responses) { if(response.comment==comment.id){%>
+      <%for(res of response.commentRes){%>
       <div class="response">
         <i class="fas fa-store"></i>&nbsp &nbsp<span class="red-color"
-          >Response by Obaju Shop</span
+          >Response by Hyper Shop</span
         >
-        <div class="response-content">
-          Thank you for your feedback. This is our pleasure
-        </div>
+        <div class="response-content"><%=res.body%></div>
       </div>
-      <%*/%>
+      <%}}}%>
       <div class="divide"></div>
     </div>
     <% } %>
