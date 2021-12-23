@@ -11,12 +11,15 @@
   <div class="card-body">
     <form>
       <div class="form-group closure-form">
+        <%for(closureType of closureTypes){%>
         <div class="checkbox">
-          <label> <input type="checkbox" value="laces" /> Laces </label>
+          <label>
+            <input type="checkbox" value="<%=closureType._id%>" />
+            <%=closureType._id.replace(/(^|\s)\S/g, letter =>
+            letter.toUpperCase());%>
+          </label>
         </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="strap" /> Strap </label>
-        </div>
+        <%}%>
       </div>
       <button class="btn btn-default btn-sm btn-primary closure-button">
         <i class="fa fa-pencil"></i> Apply

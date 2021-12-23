@@ -1,5 +1,5 @@
 <%- include('../includes/head')%>
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/css/custom.css">
 </head>
 
 <body>
@@ -23,12 +23,6 @@
                         </div>
                         <div class="col-lg-3 order-2 order-lg-1">
                             <%- include('../includes/sideBar/category')%>
-                        <%- include('../includes/sideBar/brandFilterCard')%>
-                        <%- include('../includes/sideBar/colorFilterCard')%>
-                        <%- include('../includes/sideBar/closureTypeFilterCard')%>
-                        <%- include('../includes/sideBar/shoesHeightFilterCard')%>
-                        <%- include('../includes/sideBar/materialFilterCard')%>
-                        <%- include('../includes/sideBar/genderFilterCard')%>
                         </div>
                         <div class="col-lg-9 order-1 order-lg-2">
                             <%- include('../includes/bodyContent/itemInDetail', {product})%>
@@ -41,5 +35,6 @@
 
 
 <%-include('../includes/footer/foot')%>
+<script src="/ajax/comments-ajax.js"></script>
 </body>
 </html>

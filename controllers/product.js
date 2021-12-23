@@ -1,12 +1,18 @@
-const Product = require('../models/product'); // nhớ pass categories cho tất cả các view
-//const getCategoriesQuantity = require('../util/getCategoriesQuantity');
+const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
+
+const CommentService = require('../models/services/commentService');
+const ResponseService = require('../models/services/responseService');
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 12;
   let productsCount;
+  let category = req.query.category;
+  if (category === 'all categories') {
+    category = null; //remove
+  }
   const filters = {
-    category: req.query.category,
+    category,
     brand: req.query.brand,
     color: req.query.color,
     sex: req.query.sex,
@@ -23,40 +29,52 @@ exports.getProducts = (req, res, next) => {
 
   const sortBy = req.query.sortBy || 'price';
 
-  Product.countProducts(filters)
+  ProductService.countProducts(filters)
     .then(n => {
       productsCount = n;
-      if (req.query.productsPerPage === 'all') {
+      if (req.query.productsPerPage === 'All') {
         productsPerPage = n;
       }
-      return Product.getProducts(filters)
+      return ProductService.getProducts(filters)
         .collation({ locale: 'en' })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
     })
     .then(async function (products) {
-      res.render('shop/products', {
+      res.status(200).render('shop/products', {
         pageTitle: 'Products',
         products,
         productsPerPage,
         productsCount,
         currentPage: page,
         lastPage: Math.ceil(productsCount / productsPerPage),
-        categories: await Product.getCategoriesQuantity(),
-        user: req.user
+        categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
+        closureTypes: await ProductService.getClosureTypes(),
+        shoesHeights: await ProductService.getShoesHeights(),
+        materials: await ProductService.getMaterials(),
+        user: req.user,
       });
     });
 };
 
-exports.getProductDetail = (req, res, next) => {
+exports.getProductDetail = async (req, res, next) => {
+  const commentsPerPage = 10;
   const productId = req.params.productId;
-  Product.getProduct(productId).then(async function (product) {
-    res.render('shop/productDetail', {
-      product: product,
-      pageTitle: 'Product detail',
-      categories: await Product.getCategoriesQuantity(),
-      user: req.user
-    });
+  const product = await ProductService.getProduct(productId);
+  const comments = await CommentService.getProductComments(productId);
+  const responses = await ResponseService.getResponses(comments);
+  const commentsCount = await CommentService.countComments(productId);
+  res.status(200).render('shop/productDetail', {
+    product: product,
+    pageTitle: 'Product detail',
+    comments,
+    responses,
+    commentsCurrentPage: 1,
+    commentsLastPage: Math.ceil(commentsCount / commentsPerPage),
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
+    user: req.user,
   });
 };

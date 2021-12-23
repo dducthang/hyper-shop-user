@@ -1,13 +1,10 @@
-const Product = require('../models/product');// nhớ pass categories cho tất cả các view
+const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
 
 exports.getIndex = async (req, res, next) => {
-  res.render('shop/index', {
-    categories: await Product.getCategoriesQuantity(),
-    user: req.user
+  res.status(200).render('shop/index', {
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
+    user: req.user,
   });
-  req.session.cart={};
+  req.session.cart = {};
 };
-
-
-
-
