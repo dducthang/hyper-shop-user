@@ -50,13 +50,14 @@
         fetch('http://localhost:3000/cart/add', {
             method: 'post',
             body: JSON.stringify({
-                id:event.toElement.id
+                id:event.target.id
             }),
             headers:{
                 'Content-type':'application/json'
             }
         }).then(response=>{
             if (response.status>= 200 && response.status<300){
+                alert('Add product seccessfully');
                 return response.json();
             }else{
                 response.json().then(error=>{

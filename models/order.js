@@ -13,6 +13,15 @@ const orderSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  address:{
+    type: String,
+    default: "",
+  },
+  phone: {
+    type: String,
+    minlength: 10,
+    maxlength: 10,
+  },
   status: {
     type: String,
     default: 'Pending',
