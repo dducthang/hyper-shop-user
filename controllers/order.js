@@ -6,3 +6,7 @@ exports.getOrder = async (req, res, next) => {
       user: req.user
     });
   };
+
+exports.postOrder = async (req, res, next) =>{
+  
+}
