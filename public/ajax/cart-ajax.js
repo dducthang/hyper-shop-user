@@ -6,7 +6,7 @@ const urlChangeQuantity = "http://localhost:3000/api/cart/change-quantity"
 
 const deleteProductHandler = async (event)=>{
     let product ={
-        id:event.toElement.id,
+        id:event.target.id,
     };
     await fetch(url,{
         method:"POST",

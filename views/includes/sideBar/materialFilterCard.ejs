@@ -10,18 +10,15 @@
   <div class="card-body">
     <form>
       <div class="form-group material-form">
+        <%for(material of materials){%>
         <div class="checkbox">
-          <label> <input type="checkbox" value="leather"/> Leather </label>
+          <label>
+            <input type="checkbox" value="<%=material._id%>" />
+            <%=material._id.replace(/(^|\s)\S/g, letter =>
+            letter.toUpperCase());%>
+          </label>
         </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="canvas"/> Canvas </label>
-        </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="plastic"/> Plastic </label>
-        </div>
-        <div class="checkbox">
-          <label> <input type="checkbox" value="fabric"/> Fabric </label>
-        </div>
+        <%}%>
       </div>
       <button class="btn btn-default btn-sm btn-primary material-button">
         <i class="fa fa-pencil"></i> Apply

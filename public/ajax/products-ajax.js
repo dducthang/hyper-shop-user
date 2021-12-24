@@ -183,6 +183,8 @@ function reloadProduct(e) {
       data: filters,
       dataType: 'json',
       success: function (data) {
+        const urlPath = this.url.replace('/api', '');
+        window.history.replaceState(null, '', urlPath); //update url after ajax call success
         lastPage = data.lastPage;
         if (page === 'Last') page = lastPage;
 

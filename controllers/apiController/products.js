@@ -1,4 +1,5 @@
-const Product = require('../../models/product');
+
+const ProductService = require('../../models/services/productService');
 
 exports.getProductsApi = (req, res, next) => {
   //Product.test('color'); //test
@@ -39,13 +40,13 @@ exports.getProductsApi = (req, res, next) => {
     key => filters[key] === null && delete filters[key]
   ); // remove các filter null or undefined
   const sortBy = req.query.sortBy || 'price';
-  Product.countProducts(filters)
+  ProductService.countProducts(filters)
     .then(n => {
       productsCount = n;
       if (req.query.productsPerPage === 'All') {
         productsPerPage = n;
       }
-      return Product.getProducts(filters)
+      return ProductService.getProducts(filters)
         .collation({ locale: 'en' })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)

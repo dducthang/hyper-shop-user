@@ -88,17 +88,13 @@ async function getCategoriesQuantity() {
   }
   return { catsQty, sum };
 }
-function test(prop) {
-  Product.distinct(prop).then(function (p) {
-    console.log(p);
-  });
-}
+module.exports = Product;
+// module.exports = {
+//   Product, //cần sửa đống dưới vô service
+//   countProducts,
+//   getProducts,
+//   getProduct,
+//   getCategoriesQuantity,
+//   getProductById,
 
-module.exports = {
-  countProducts,
-  getProducts,
-  getProduct,
-  getCategoriesQuantity,
-  getProductById,
-  test, //để query xem tung thuộc tính trên db có giá trị nào
-};
+// };

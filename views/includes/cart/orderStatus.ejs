@@ -2,30 +2,26 @@
     <div class="box-header">
         <h3 class="mb-0">Order summary</h3>
     </div>
+    <% let totalPrice = 0 %>
     <p class="text-muted">
+        <% for(let item of order.orderItems) { %>
+            <% totalPrice += item.product.price*item.quantity%>
         <div class="row">
-            <div class="col-9">
-                <span>KD14</span>
+            <div class="col-7">
+                <span><%=item.product.name%></span>
             </div>
-            <div class="col-2">
-                <span>x1</span>
+            <div class="col-5">
+                <span>$<%=item.product.price%> x <%=item.quantity%></span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-9">
-                <span>Zoom freak 3</span>
-            </div>
-            <div class="col-2">
-                <span>x2</span>
-            </div>
-        </div>
+        <% } %>
     </p>
     <div class="table-responsive">
         <table class="table">
             <tbody>
                 <tr>
                     <td>Order subtotal</td>
-                    <th>$446.00</th>
+                    <th>$<%=totalPrice%></th>
                 </tr>
                 <tr>
                     <td>Shipping and handling</td>
@@ -41,7 +37,7 @@
                 </tr>
                 <tr class="total">
                     <td>Total</td>
-                    <th>$456.00</th>
+                    <th>$<%= totalPrice + 10 %></th>
                 </tr>
             </tbody>
         </table>

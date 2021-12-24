@@ -5,15 +5,11 @@
     <%- include('../includes/header/header',{user})%>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-3">
-                <%- include('../includes/cart/orderStatus')%>
+            <% for (let order of orders) { %>
+            <div class="col-lg-3"> 
+                <%- include('../includes/cart/orderStatus', {order})%>
             </div>
-            <!-- <div class="col-lg-3">
-                <%- include('../includes/cart/orderStatus')%>
-            </div>
-            <div class="col-lg-3">
-                <%- include('../includes/cart/orderStatus')%>
-            </div> -->
+            <% } %>
         </div>
     </div>
 

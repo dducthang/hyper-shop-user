@@ -1,4 +1,4 @@
-const Product = require("../models/product"); // nhớ pass categories cho tất cả các view !!!
+const ProductService = require("../models/services/productService"); // nhớ pass categories cho tất cả các view !!!
 const authService = require("../models/services/authService");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
@@ -14,10 +14,9 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getSignup = async (req, res, next) => {
-  console.log(req.user);
-
-  res.render("auth/signup", {
-    categories: await Product.getCategoriesQuantity(),
+  res.status(200).render("auth/signup", {
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };
@@ -48,26 +47,29 @@ exports.signup = async (req, res, next) => {
     errors.push({ msg: "Email already registered" });
   }
   if (errors.length > 0) {
-    return res.render("auth/signup", {
+    return res.status(400).render("auth/signup", {
       errors: errors,
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: user,
     });
   } else if (errors.length == 0) {
     try {
       //validation pass -> save to db
       await authService.signup({ name, email, phone, password });
-      return res.render("auth/signup", {
+      return res.status(200).render("auth/signup", {
         success_msg: "Sign up succesfully!!!",
-        categories: await Product.getCategoriesQuantity(),
+        categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
         user: req.user,
       });
     } catch (e) {
       //--------TODO-------
       //Lỗi trong lúc create trong mongodb, chưa handle
       console.log(e);
-      res.render("auth/signup", {
-        categories: await Product.getCategoriesQuantity(),
+      res.status(400).render("auth/signup", {
+        categories: await ProductService.getCategoriesQuantity(),
+        brands: await ProductService.getBrands(),
         user: user,
       });
     }
@@ -77,14 +79,16 @@ exports.signup = async (req, res, next) => {
 exports.getSignin = async (req, res, next) => {
   console.log(req.user);
   res.render("auth/signin", {
-    categories: await Product.getCategoriesQuantity(),
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     user: req.user,
   });
 };
 exports.getReset = async (req, res, next) => {
   res.render("auth/reset", {
     user: req.user,
-    categories: await Product.getCategoriesQuantity(),
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
   });
 };
 exports.postReset = async (req, res, next) => {
@@ -93,7 +97,8 @@ exports.postReset = async (req, res, next) => {
     return res.render("auth/reset", {
       errors: [{ msg: "This email is not registed yet!!!" }],
       user: req.user,
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   crypto.randomBytes(32, async (err, buffer) => {
@@ -111,7 +116,8 @@ exports.postReset = async (req, res, next) => {
     res.render("auth/reset", {
       success_msg: "Check your email to reset password",
       user: req.user,
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
     transporter.sendMail({
       to: user.email,
@@ -138,12 +144,14 @@ exports.getNewPassword = async (req, res, next) => {
     return res.render("auth/reset", {
       errors: [{ msg: "Reset token expired, request a new one" }],
       user: req.user,
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   res.render("auth/newpassword", {
     user: req.user,
-    categories: await Product.getCategoriesQuantity(),
+    categories: await ProductService.getCategoriesQuantity(),
+    brands: await ProductService.getBrands(),
     userId: user._id,
     resetToken: req.params.token,
   });
@@ -162,14 +170,16 @@ exports.postNewPassword = async (req, res, next) => {
     return res.render("auth/reset", {
       errors: [{ msg: "Reset token expired, request a new one" }],
       user: req.user,
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
     });
   }
   //if token is valid
   else {
     res.render("auth/signin", {
       success_msg: "Reset password successfully, login here",
-      categories: await Product.getCategoriesQuantity(),
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
       user: user,
     });
     //clear token and reset password
