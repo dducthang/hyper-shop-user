@@ -19,23 +19,26 @@ exports.postOrder = async (req, res, next) =>{
     address: req.body.address,
     telephone: req.body.telephone
   }
-
-  let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-  let today  = new Date();
-  today = today.toLocaleString("en-US", options);
   
   const cart = await CartService.getCartByUserId(req.user);
+  if(cart.orderItems.length==0){
+    res.status(304).send();
+    return;
+  }
+
   for(let item in cart.orderItems){
     item.isOrdered = true;
   }
-  cart.save();
-
+  
   const order = await OrderService.createOrder({
     user: req.user,
     orderItems: cart.orderItems,
     status: "Pending",
-    orderDate: today
+    orderDate: new Date()
   });
+  
+  cart.orderItems = []
+  cart.save();
 
   const orders = await OrderService.getOrders(req.user);
   console.log(orders);
@@ -46,5 +49,7 @@ exports.postOrder = async (req, res, next) =>{
     user: req.user,
     orders
   });
+
+  // res.redirect('/orders');
   
 }
