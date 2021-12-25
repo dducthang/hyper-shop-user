@@ -2,15 +2,14 @@
     <div class="product">
         <div class="flip-container">
             <div class="flipper">
-                <div class="front"><a href="#"><img src="/img/product1.jpg" alt="" class="img-fluid"></a></div>
-                <div class="back"><a href="#"><img src="/img/product1_2.jpg" alt="" class="img-fluid"></a>
+                <div class="back"><a href="/products/<%=product._id%>"><img src="https://hyper-shop-admin.herokuapp.com/<%=product.image%>" alt="<%=product.name%>" class="img-fluid"></a>
                 </div>
             </div>
-        </div><a href="/productDetail" class="invisible"><img src="/img/product1.jpg" alt="" class="img-fluid"></a>
+        </div>
         <div class="text">
-            <h3><a href="/productDetail">Fur coat with very but very very long name</a></h3>
+            <h3><a href="/products/<%=product._id%>" style="text-decoration: none;"><%=product.name%></a></h3>
             <p class="price">
-                <del></del>$143.00
+                <del></del>$<%=product.price%>
             </p>
         </div>
     </div>
