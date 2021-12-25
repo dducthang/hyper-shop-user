@@ -1,3 +1,4 @@
+
 <div id="hot">
     <div class="box py-4">
       <div class="container">
@@ -11,14 +12,9 @@
     <div class="container">
         <div class="product-slider owl-carousel owl-theme">
             <!-- ITEM =========================== -->
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
-            <%- include('./item')%>
+            <% for (product of hotProducts) { %>
+              <%- include('./item', product)%>
+            <% } %>
         </div>
     </div>
 </div>
