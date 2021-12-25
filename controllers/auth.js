@@ -77,6 +77,7 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.getSignin = async (req, res, next) => {
+  console.log(req.user);
   res.render("auth/signin", {
     categories: await ProductService.getCategoriesQuantity(),
     brands: await ProductService.getBrands(),

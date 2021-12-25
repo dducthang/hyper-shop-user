@@ -43,6 +43,7 @@ exports.addToCart = async (req, res, next) => {
     }
     const product = await ProductService.getProduct(req.body.id);
     await cartService.addSingleProductToCart(product, cart);
+    res.status(200).send('Add cart successfully');
   } else {
     if (!req.session.cart) {
       //nếu session chưa có cart thì tạo cart cùng với sản phẩm

@@ -29,7 +29,6 @@ exports.changeItemQuantity = async (req, res,next)=>{
     const itemQuantity = req.body;
     if(req.user){
         const item = await orderItemsService.changeItemQuantity(itemQuantity)
-        console.log(item);
         await res.status(200).send(item);
     }
     else{

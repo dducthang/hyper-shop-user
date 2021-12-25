@@ -44,34 +44,8 @@
 
 <%-include('../includes/footer/foot')%>
 <script src="/js/productFilter.js"></script>
-<script id="scriptAddProductToCart" type="text/javascript">
-    const addToCartHandler =(event)=>{
-        console.log(event.toElement)
-        fetch('http://localhost:3000/cart/add', {
-            method: 'post',
-            body: JSON.stringify({
-                id:event.toElement.id
-            }),
-            headers:{
-                'Content-type':'application/json'
-            }
-        }).then(response=>{
-            if (response.status>= 200 && response.status<300){
-                return response.json();
-            }else{
-                response.json().then(error=>{
-                    console.log('ERROR: '+error);
-                });
-            }
-        }).catch(error=>{
-            console.log(error);
-        })
-    }
-
-    for(let btn of document.getElementsByClassName('addToCartBtn')){
-        btn.addEventListener('click', addToCartHandler)
-    }
-</script>
+<script src="/js/addProductToCart.js"></script>
+<script src="/js/reRunScript.js" id="reRunScript"></script>
 <script src="/ajax/products-ajax.js"></script>
 </body>
 </html>
