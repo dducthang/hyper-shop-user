@@ -1,5 +1,7 @@
 const ProductService = require("../models/services/productService"); // nhớ pass categories cho tất cả các view !!!
 const authService = require("../models/services/authService");
+const UserService = require("../models/services/userService"); // nhớ pass categories cho tất cả các view
+
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -54,25 +56,45 @@ exports.signup = async (req, res, next) => {
       user: user,
     });
   } else if (errors.length == 0) {
-    try {
-      //validation pass -> save to db
-      await authService.signup({ name, email, phone, password });
-      return res.status(200).render("auth/signup", {
-        success_msg: "Sign up succesfully!!!",
-        categories: await ProductService.getCategoriesQuantity(),
-        brands: await ProductService.getBrands(),
-        user: req.user,
-      });
-    } catch (e) {
-      //--------TODO-------
-      //Lỗi trong lúc create trong mongodb, chưa handle
-      console.log(e);
-      res.status(400).render("auth/signup", {
-        categories: await ProductService.getCategoriesQuantity(),
-        brands: await ProductService.getBrands(),
-        user: user,
-      });
-    }
+    // tạo token verify qua mail
+    crypto.randomBytes(32, async (err, buffer) => {
+      user.verifyToken = buffer.toString("hex");
+      // Thời gian tồn tại của token này +millisecond
+      user.verifyTokenExpiration = Date.now() + 3600000;
+
+      //do k biết đặt await cho cái create token này ra sao nên bỏ luôn tất cả vào trong
+      try {
+        //gửi email verify
+        transporter.sendMail({
+          to: user.email,
+          from: process.env.SENDGRID_EMAIL,
+          subject: "Hyper-shop email vefification",
+          html: `
+            <p>You sign up to hyper shop</p>
+            <p><a href="${process.env.DOMAIN}/auth/verify/${user.verifyToken}">Click this</a> to verify your email</p>
+            `,
+        });
+
+        //validation pass -> save to db
+        console.log(user);
+        await authService.signup(user);
+        return res.status(200).render("auth/signup", {
+          success_msg: "Sign up success, verify email to log in",
+          categories: await ProductService.getCategoriesQuantity(),
+          brands: await ProductService.getBrands(),
+          user: req.user,
+        });
+      } catch (e) {
+        //--------TODO-------
+        //Lỗi trong lúc create trong mongodb, chưa handle
+        console.log(e);
+        res.status(400).render("auth/signup", {
+          categories: await ProductService.getCategoriesQuantity(),
+          brands: await ProductService.getBrands(),
+          user: user,
+        });
+      }
+    });
   }
 };
 
@@ -187,5 +209,31 @@ exports.postNewPassword = async (req, res, next) => {
     user.resetToken = undefined;
     user.password = password;
     await authService.updatePassword(user);
+  }
+};
+
+exports.emailVerify = async (req, res, next) => {
+  const user = await authService.getUser({
+    verifyToken: req.params.verifyToken,
+    verifyTokenExpiration: { $gt: Date.now() },
+  });
+  if (!user) {
+    res.render("auth/updatePassword", {
+      errors: [{ msg: "Invalid verify token" }],
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
+      user: req.user,
+    });
+  } else {
+    user.isLock = false;
+    user.verifyToken = undefined;
+    user.verifyTokenExpiration = undefined;
+    await UserService.saveUser(user);
+    res.render("auth/updatePassword", {
+      success_msg: "Account verify, you can login now",
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
+      user: req.user,
+    });
   }
 };

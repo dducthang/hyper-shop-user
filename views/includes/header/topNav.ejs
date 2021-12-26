@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-lg-6 offer mb-3 mb-lg-0">
         <% if(!user) { %>
-          <div class="btn btn-success btn-sm">Login to have best experience</div>
+        <div class="btn btn-success btn-sm">Login to have best experience</div>
         <% } else { %>
-          <div class="btn btn-success btn-sm">Hello, <%=user.name%></div>
+        <div class="btn btn-success btn-sm">Hello, <%=user.name%></div>
         <% } %>
       </div>
       <% if(!user) { %>
@@ -18,14 +18,14 @@
           <li class="list-inline-item"><a href="/">Contact</a></li>
         </ul>
       </div>
-      <% } %>
-      
-      <% if(user) { %>
+      <% } %> <% if(user) { %>
       <div class="col-lg-1 offset-lg-5">
         <form action="/auth/logout">
           <button>log out</button>
         </form>
+        <a href="/user/updatepassword">change password</a>
       </div>
+
       <% } %>
     </div>
   </div>
@@ -35,7 +35,8 @@
     role="dialog"
     aria-labelledby="Login"
     aria-hidden="true"
-    class="modal fade">
+    class="modal fade"
+  >
     <%/* này là để comment%> quăng cái popup đăng nhập vô comment đó bờ gô
     <div class="modal-dialog modal-sm">
       <div class="modal-content">

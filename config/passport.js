@@ -17,6 +17,11 @@ function initialize(passport) {
       if (!user) {
         return done(null, false, { message: "Wrong email or password" });
       }
+      if (user.isLock) {
+        return done(null, false, {
+          message: "Account is blocked or not yet verified",
+        });
+      }
       const matchPassword = await isValidPassword(user, password);
       if (!matchPassword) {
         return done(null, false, { message: "Wrong email or password" });
