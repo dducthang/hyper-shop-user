@@ -63,6 +63,8 @@ exports.getProductDetail = async (req, res, next) => {
   const commentsPerPage = 10;
   const productId = req.params.productId;
   const product = await ProductService.getProduct(productId);
+  product.viewCount+=1;
+  product.save();
   const comments = await CommentService.getProductComments(productId);
   const responses = await ResponseService.getResponses(comments);
   const commentsCount = await CommentService.countComments(productId);

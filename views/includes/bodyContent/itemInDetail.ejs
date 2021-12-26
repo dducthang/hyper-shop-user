@@ -25,14 +25,16 @@
       </div>
     </div>
     <div class="ribbon sale">
-      <div class="theribbon">SALE</div>
+      <div class="theribbon">Views <%=product.viewCount%></div>
       <div class="ribbon-background"></div>
     </div>
     <!-- /.ribbon-->
+    <% /* %>
     <div class="ribbon new">
       <div class="theribbon">NEW</div>
       <div class="ribbon-background"></div>
     </div>
+    <% */ %>
     <!-- /.ribbon-->
   </div>
   <div class="col-md-6">
@@ -45,9 +47,9 @@
       </p>
       <p class="price">$<%=product.price%></p>
       <p class="text-center buttons">
-        <a href="#" class="btn btn-primary"
-          ><i class="fa fa-shopping-cart"></i> Add to cart</a
-        >
+        <button class="btn btn-primary addToCartBtn" id="<%=product._id%>">
+          <i class="fa fa-shopping-cart"></i> Add to cart
+        </button>
         <!-- <a href="basket.html"class="btn btn-outline-primary"><i class="fa fa-heart"></i> Add to wishlist</a> -->
       </p>
     </div>

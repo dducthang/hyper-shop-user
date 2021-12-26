@@ -183,6 +183,15 @@ function reloadProduct(e) {
       data: filters,
       dataType: 'json',
       success: function (data) {
+
+        const oldScript = document.getElementById("reRunScript");
+        const newScript = document.createElement('script');
+        newScript.setAttribute('src', '/js/reRunScript.js');
+        newScript.setAttribute('id', 'reRunScript');
+        
+        oldScript.parentNode.insertBefore(newScript, oldScript);
+        oldScript.parentElement.removeChild(oldScript);
+        
         const urlPath = this.url.replace('/api', '');
         window.history.replaceState(null, '', urlPath); //update url after ajax call success
         lastPage = data.lastPage;
@@ -245,8 +254,8 @@ function getProductBox(product) {
       <p class="buttons">
         <a href="/products/${product._id}" class="btn btn-outline-secondary"
           >View detail</a
-        ><a href="/cart" class="btn btn-primary"
-          ><i class="fa fa-shopping-cart"></i>Add to cart</a
+        ><button id="${product._id}" class="btn btn-primary addToCartBtn"
+          ><i class="fa fa-shopping-cart"></i>Add to cart</button
         >
       </p>
     </div>

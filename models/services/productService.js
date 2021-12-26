@@ -1,7 +1,14 @@
 const Product = require("../product");
 const { ObjectId } = require("mongodb");
 
-exports.getProductById = async (productId) => {
+
+exports.getTopProducts = async number => {
+  const products = await Product.find().sort({_id: 1}).limit(number);
+  return products;
+};
+
+exports.getProductById = async productId => {
+
   const product = await Product.findOne({ _id: ObjectId(productId) });
   return product;
 };
