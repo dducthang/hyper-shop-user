@@ -1,25 +1,25 @@
-const Product = require('../product');
-const { ObjectId } = require('mongodb');
+const Product = require("../product");
+const { ObjectId } = require("mongodb");
 
-exports.getProductById = async productId => {
+exports.getProductById = async (productId) => {
   const product = await Product.findOne({ _id: ObjectId(productId) });
   return product;
 };
-exports.countProducts = filters => {
+exports.countProducts = (filters) => {
   return Product.find(filters).countDocuments();
 };
 
-exports.getProducts = filters => {
+exports.getProducts = (filters) => {
   return Product.find(filters);
 };
-exports.getProduct = id => {
+exports.getProduct = (id) => {
   return Product.findById(id);
 };
 exports.getCategoriesQuantity = async () => {
   const catsQty = await Product.aggregate([
     {
       $group: {
-        _id: '$category',
+        _id: "$category",
         count: { $sum: 1 },
       },
     },
@@ -35,7 +35,7 @@ exports.getBrands = async () => {
   return await Product.aggregate([
     {
       $group: {
-        _id: '$brand',
+        _id: "$brand",
       },
     },
     { $limit: 5 },
@@ -46,7 +46,7 @@ exports.getClosureTypes = async () => {
   return await Product.aggregate([
     {
       $group: {
-        _id: '$closureType',
+        _id: "$closureType",
         count: { $sum: 1 },
       },
     },
@@ -57,7 +57,7 @@ exports.getShoesHeights = async () => {
   return await Product.aggregate([
     {
       $group: {
-        _id: '$shoesHeight',
+        _id: "$shoesHeight",
         count: { $sum: 1 },
       },
     },
@@ -68,7 +68,7 @@ exports.getMaterials = async () => {
   return await Product.aggregate([
     {
       $group: {
-        _id: '$material',
+        _id: "$material",
         count: { $sum: 1 },
       },
     },
