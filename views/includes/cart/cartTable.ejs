@@ -3,7 +3,6 @@
     <form method="get" action="/cart/checkout">
         <h1>Shopping cart</h1>
         <% if(cart) { %>
-        <p class="text-muted">You currently have <%= cart.orderItems.length%> item(s) in your cart.</p>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -22,7 +21,7 @@
                         <td><a href="/products/<%=cart.orderItems[i].product._id%>"><img src="https://hyper-shop-admin.herokuapp.com/<%=cart.orderItems[i].product.image%>" alt="<%=cart.orderItems[i].product.name%>"></a></td>
                         <td><a href="/products/<%=cart.orderItems[i].product._id%>"><%=cart.orderItems[i].product.name%></a></td>
                         <td id="quantity-<%=cart.orderItems[i]._id%>">
-                            <input type="number" value="<%=cart.orderItems[i].quantity%>" id="<%=cart.orderItems[i]._id%>" class="form-control item-quantity">
+                            <input type="number" value="<%=cart.orderItems[i].quantity%>" min="1" id="<%=cart.orderItems[i]._id%>" class="form-control item-quantity">
                         </td>
                         <td>$<%=cart.orderItems[i].product.price%></td>
                         <td>$0.00</td>

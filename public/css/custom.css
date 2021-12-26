@@ -199,3 +199,9 @@ select:focus {
   justify-content: center;
   margin-bottom: 30px;
 }
+
+/* ===================== CART ====================== */
+.delete-product-btn:hover{
+    cursor: pointer;
+    color:#00bba7;
+}
