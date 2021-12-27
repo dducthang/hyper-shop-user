@@ -1,14 +1,12 @@
 const Product = require("../product");
 const { ObjectId } = require("mongodb");
 
-
-exports.getTopProducts = async number => {
-  const products = await Product.find().sort({_id: 1}).limit(number);
+exports.getTopProducts = async (number) => {
+  const products = await Product.find().sort({ _id: 1 }).limit(number);
   return products;
 };
 
-exports.getProductById = async productId => {
-
+exports.getProductById = async (productId) => {
   const product = await Product.findOne({ _id: ObjectId(productId) });
   return product;
 };
@@ -81,4 +79,8 @@ exports.getMaterials = async () => {
     },
     { $limit: 5 },
   ]);
+};
+
+exports.getRelatedProducts = (filter) => {
+  return Product.find(filter).limit(3);
 };

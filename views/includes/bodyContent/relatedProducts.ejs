@@ -5,49 +5,32 @@
       <h3>You may also like these products</h3>
     </div>
   </div>
+  <% relatedProducts.forEach ((product)=>{ %>
   <div class="col-md-3 col-sm-6">
     <div class="product same-height">
       <div class="flip-container">
         <div class="flipper">
-          <div class="front"><a href="/productDetail"><img src="/img/kyrie-low-4.jpg" alt="" class="img-fluid"></a></div>
-          <div class="back"><a href="/productDetail"><img src="/img/kyrie-low-4.jpg" alt="" class="img-fluid"></a></div>
+          <div class="front">
+            <a href="/products/<%= product._id %>"
+              ><img src="<%=product.image%>" alt="" class="img-fluid"
+            /></a>
+          </div>
+          <div class="back">
+            <a href="/products/<%= product._id %>"
+              ><img src="<%=product.image%>" alt="" class="img-fluid"
+            /></a>
+          </div>
         </div>
-      </div><a href="/productDetail" class="invisible"><img src="/img/kyrie-low-4.jpg" alt="" class="img-fluid"></a>
+      </div>
+      <a href="/products/<%= product._id %>" class="invisible"
+        ><img src="<%=product.image%>" alt="" class="img-fluid"
+      /></a>
       <div class="text">
-        <h3>Fur coat</h3>
-        <p class="price">$143</p>
+        <h3><%= product.name %></h3>
+        <p class="price"><%= product.price %></p>
       </div>
     </div>
     <!-- /.product-->
   </div>
-  <div class="col-md-3 col-sm-6">
-    <div class="product same-height">
-      <div class="flip-container">
-        <div class="flipper">
-          <div class="front"><a href="/productDetail"><img src="/img/savaleos.jpg" alt="" class="img-fluid"></a></div>
-          <div class="back"><a href="/productDetail"><img src="/img/savaleos.jpg" alt="" class="img-fluid"></a></div>
-        </div>
-      </div><a href="/productDetail" class="invisible"><img src="/img/savaleos.jpg" alt="" class="img-fluid"></a>
-      <div class="text">
-        <h3>Fur coat</h3>
-        <p class="price">$143</p>
-      </div>
-    </div>
-    <!-- /.product-->
-  </div>
-  <div class="col-md-3 col-sm-6">
-    <div class="product same-height">
-      <div class="flip-container">
-        <div class="flipper">
-          <div class="front"><a href="/products/"><img src="/img/zoom-freak-3.jpg" alt="" class="img-fluid"></a></div>
-          <div class="back"><a href="/products/"><img src="/img/zoom-freak-3.jpg" alt="" class="img-fluid"></a></div>
-        </div>
-      </div><a href="/productDetail" class="invisible"><img src="/img/zoom-freak-3.jpg" alt="" class="img-fluid"></a>
-      <div class="text">
-        <h3>Fur coat</h3>
-        <p class="price">$143</p>
-      </div>
-    </div>
-    <!-- /.product-->
-  </div>
+  <% }) %>
 </div>
