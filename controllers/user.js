@@ -16,7 +16,8 @@ exports.postProfile = async (req, res, next) => {
   if (!name || !phone || !address) {
     errors.push({ msg: "Please enter all fields" });
   }
-  if (phone.length != 10) {
+  var phoneRegerx = /([0][1-9]{9})/;
+  if (!phoneRegerx.test(phone)) {
     errors.push({ msg: "Phone number need to be 10-digit format" });
   }
   if (errors.length > 0) {
