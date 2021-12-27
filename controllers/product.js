@@ -1,14 +1,14 @@
-const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
+const ProductService = require("../models/services/productService"); // nhớ pass categories cho tất cả các view
 
-const CommentService = require('../models/services/commentService');
-const ResponseService = require('../models/services/responseService');
+const CommentService = require("../models/services/commentService");
+const ResponseService = require("../models/services/responseService");
 
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let productsPerPage = +req.query.productsPerPage || 12;
   let productsCount;
   let category = req.query.category;
-  if (category === 'all categories') {
+  if (category === "all categories") {
     category = null; //remove
   }
   const filters = {
@@ -21,29 +21,29 @@ exports.getProducts = (req, res, next) => {
     material: req.query.material,
   };
   Object.keys(filters).forEach(
-    key => filters[key] === undefined && delete filters[key]
+    (key) => filters[key] === undefined && delete filters[key]
   );
   Object.keys(filters).forEach(
-    key => filters[key] === null && delete filters[key]
+    (key) => filters[key] === null && delete filters[key]
   );
 
-  const sortBy = req.query.sortBy || 'price';
+  const sortBy = req.query.sortBy || "price";
 
   ProductService.countProducts(filters)
-    .then(n => {
+    .then((n) => {
       productsCount = n;
-      if (req.query.productsPerPage === 'All') {
+      if (req.query.productsPerPage === "All") {
         productsPerPage = n;
       }
       return ProductService.getProducts(filters)
-        .collation({ locale: 'en' })
+        .collation({ locale: "en" })
         .sort(sortBy)
         .skip((page - 1) * productsPerPage)
         .limit(productsPerPage);
     })
     .then(async function (products) {
-      res.status(200).render('shop/products', {
-        pageTitle: 'Products',
+      res.status(200).render("shop/products", {
+        pageTitle: "Products",
         products,
         productsPerPage,
         productsCount,
@@ -63,14 +63,19 @@ exports.getProductDetail = async (req, res, next) => {
   const commentsPerPage = 10;
   const productId = req.params.productId;
   const product = await ProductService.getProduct(productId);
-  product.viewCount+=1;
+  product.viewCount += 1;
   product.save();
   const comments = await CommentService.getProductComments(productId);
   const responses = await ResponseService.getResponses(comments);
   const commentsCount = await CommentService.countComments(productId);
-  res.status(200).render('shop/productDetail', {
+  const relatedProducts = await ProductService.getRelatedProducts({
+    brand: product.brand,
+    _id: { $ne: product._id },
+  });
+  console.log("---------", relatedProducts, "---------");
+  res.status(200).render("shop/productDetail", {
     product: product,
-    pageTitle: 'Product detail',
+    pageTitle: "Product detail",
     comments,
     responses,
     commentsCurrentPage: 1,
@@ -78,5 +83,6 @@ exports.getProductDetail = async (req, res, next) => {
     categories: await ProductService.getCategoriesQuantity(),
     brands: await ProductService.getBrands(),
     user: req.user,
+    relatedProducts,
   });
 };
