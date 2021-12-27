@@ -7,7 +7,7 @@ exports.newUser = (user) => {
 };
 
 exports.saveUser = (user) => {
-  user.save();
+  return user.save();
 };
 
 exports.getUser = (filter) => {
@@ -18,7 +18,6 @@ exports.updateProfile = async (newProfile) => {
   const user = await User.findById(newProfile._id);
   user.address = newProfile.address;
   user.name = newProfile.name;
-  user.email = newProfile.email;
   user.phone = newProfile.phone;
   return user.save();
 };

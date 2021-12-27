@@ -11,16 +11,33 @@ exports.getProfile = async (req, res, next) => {
 };
 
 exports.postProfile = async (req, res, next) => {
-  const newProfile = {
-    _id: req.user._id,
-    name: req.body.name,
-    email: req.body.email,
-    address: req.body.address,
-    phone: req.body.phone,
-  };
-  console.log(newProfile);
-  await UserService.updateProfile(newProfile);
-  res.status(200).redirect("/user/profile");
+  const { name, phone, address } = req.body; //lấy các thông tin name, email,... từ requestz
+  let errors = [];
+  if (!name || !phone || !address) {
+    errors.push({ msg: "Please enter all fields" });
+  }
+  if (phone.length != 10) {
+    errors.push({ msg: "Phone number need to be 10-digit format" });
+  }
+  if (errors.length > 0) {
+    return res.status(400).render("shop/profile", {
+      errors: errors,
+      categories: await ProductService.getCategoriesQuantity(),
+      brands: await ProductService.getBrands(),
+      user: req.user,
+      profile: req.user,
+    });
+  } else {
+    const newProfile = {
+      _id: req.user._id,
+      name: req.body.name,
+      email: req.body.email,
+      address: req.body.address,
+      phone: req.body.phone,
+    };
+    await UserService.updateProfile(newProfile);
+    res.status(200).redirect("/user/profile");
+  }
 };
 
 exports.getUpdatePassword = async (req, res, next) => {
