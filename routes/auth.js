@@ -21,7 +21,6 @@ router.post(
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/auth/signin");
-  console.log(req.session);
 });
 
 router.get("/reset", authController.getReset);

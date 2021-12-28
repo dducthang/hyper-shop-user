@@ -14,7 +14,7 @@
       <%for(cat of categories.catsQty) {%>
       <li>
         <a
-          href="/products?category=<%=cat.name%>"
+          href="/products?category=<%=cat._id%>"
           class="nav-link category-filter"
           ><%=cat._id%><span class="badge badge-secondary"
             ><%=cat.count%></span
