@@ -35,7 +35,7 @@ exports.signup = async (req, res, next) => {
     errors.push({ msg: "Passwords do not match" });
   }
 
-  var phoneRegerx = /([0][1-9]{9})/;
+  var phoneRegerx = /^([0][1-9]{9})$/;
   if (!phoneRegerx.test(phone)) {
     errors.push({ msg: "Phone number need to be 10-digit format" });
   }

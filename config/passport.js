@@ -13,6 +13,7 @@ function initialize(passport) {
   //dùng trong sign in
   const authenticateUser = async (email, password, done) => {
     try {
+      email = email.toLowerCase();
       const user = await authService.getUserLean({ email }); //lean() trả về plain data, mình chỉ cần xác định sự tồn tại của user
       if (!user) {
         return done(null, false, { message: "Wrong email or password" });
