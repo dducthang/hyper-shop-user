@@ -8,6 +8,7 @@ exports.signup = async (newUser) => {
   const hashedPassword = await bcrypt.hash(newUser.password, saltRounds); //hash password được gửi đến server từ form
   newUser.password = hashedPassword;
   newUser.isLock = true;
+  newUser.email = newUser.email.toLowerCase();
   return User.create(newUser); //luu vao db
 };
 
