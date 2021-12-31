@@ -13,10 +13,9 @@ router.post(
   "/signin",
   checkNotAuthenticated,
   passport.authenticate("local", {
-    successRedirect: "/",
     failureRedirect: "/auth/signin",
     failureFlash: true,
-  })
+  }),authController.signin
 );
 router.get("/logout", (req, res, next) => {
   req.logout();
