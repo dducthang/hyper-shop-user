@@ -77,7 +77,6 @@ exports.signup = async (req, res, next) => {
         });
 
         //validation pass -> save to db
-        console.log(user);
         await authService.signup(user);
         return res.status(200).render('auth/signup', {
           success_msg: 'Sign up success, verify email to log in',

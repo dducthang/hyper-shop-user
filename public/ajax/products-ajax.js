@@ -146,7 +146,7 @@ function reloadProduct(e) {
     sortBy = '-' + sortBy;
   }
   e.preventDefault();
-  const url = 'http://localhost:3000/api/products';
+  const url = '/api/products';
   let page = sessionStorage.getItem('page') || 1;
   if (page === 'First') page = 1;
   if (page === 'Last') page = sessionStorage.getItem('lastPage');
@@ -183,15 +183,14 @@ function reloadProduct(e) {
       data: filters,
       dataType: 'json',
       success: function (data) {
-
-        const oldScript = document.getElementById("reRunScript");
+        const oldScript = document.getElementById('reRunScript');
         const newScript = document.createElement('script');
         newScript.setAttribute('src', '/js/reRunScript.js');
         newScript.setAttribute('id', 'reRunScript');
-        
+
         oldScript.parentNode.insertBefore(newScript, oldScript);
         oldScript.parentElement.removeChild(oldScript);
-        
+
         const urlPath = this.url.replace('/api', '');
         window.history.replaceState(null, '', urlPath); //update url after ajax call success
         lastPage = data.lastPage;

@@ -40,7 +40,7 @@ $('.pages').on('click', '.page-link', function (e) {
   else if (commentsCurrentPage === 'Last')
     commentsCurrentPage = $(this).attr('id');
   const productId = $('#productId').val();
-  const url = 'http://localhost:3000/api/comments/' + productId;
+  const url = '/api/comments/' + productId;
   if (commentsCurrentPage !== '...') {
     $.ajax({
       url,
