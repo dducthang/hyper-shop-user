@@ -34,7 +34,9 @@ exports.postOrder = async (req, res, next) =>{
     user: req.user,
     orderItems: cart.orderItems,
     status: "Pending",
-    orderDate: new Date()
+    orderDate: new Date(),
+    address: userInfor.address,
+    phone: userInfor.telephone
   });
   
   cart.orderItems = []
@@ -48,8 +50,5 @@ exports.postOrder = async (req, res, next) =>{
     brands: await ProductService.getBrands(),
     user: req.user,
     orders
-  });
-
-  // res.redirect('/orders');
-  
+  });  
 }
