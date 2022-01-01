@@ -25,6 +25,7 @@ exports.getSignup = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   const { name, email, phone, password, confirmPassword } = req.body; //lấy các thông tin name, email,... từ requestz
+  email = email.toLowerCase();
   let user = { name, email, phone, password, confirmPassword };
   let errors = [];
   if (!name || !email || !phone || !password || !confirmPassword) {
