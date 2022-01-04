@@ -12,7 +12,7 @@ $('.comment-form').on('submit', function (e) {
       data,
       success: function (data) {
         let commentsList = '';
-        //reverse để hiện thị bình luận mới nhất xuống dưới
+        //reverse for showing comment in better order
         for (comment of data.comments.reverse()) {
           commentsList += getComment(comment, data.responses);
         }
