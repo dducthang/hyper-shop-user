@@ -40,6 +40,7 @@ exports.getBrands = () => {
     {
       $group: {
         _id: '$brand',
+        count: { $sum: 1 },
       },
     },
     { $sort: { count: -1 } },
