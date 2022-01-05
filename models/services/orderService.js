@@ -20,20 +20,23 @@ exports.isBoughtProduct = async (userId, productId) => {
   return res > 0 ? true : false;
 };
 
-
-exports.createOrder = async (properties) =>{
-  const newOrder = await Order.create(properties);
-  return newOrder;
-}
-
-exports.getOrders = async (userId) =>{
-  const orders = await Order.find({user: userId}).populate({
-    path: "orderItems",
-    model: "OrderItem",
-    populate: {
-      path: "product",
-      model: "Product",
-    },
-  });
-  return orders;
-}
+exports.createOrder = properties => {
+  return Order.create(properties);
+};
+exports.countOrders = () => {
+  return Order.count();
+};
+exports.getOrders = (userId, currentPage = 1) => {
+  return Order.find({ user: userId })
+    .populate({
+      path: 'orderItems',
+      model: 'OrderItem',
+      populate: {
+        path: 'product',
+        model: 'Product',
+      },
+    })
+    .sort('-orderedDate')
+    .limit(3)
+    .skip(3 * (currentPage - 1));
+};
