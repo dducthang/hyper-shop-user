@@ -24,6 +24,7 @@ const orderRouter = require('./routes/order');
 const authRouter = require('./routes/auth');
 const cartRouter = require('./routes/cart');
 const userRouter = require('./routes/user');
+const errorRoute = require('./routes/error');
 
 const app = express();
 const store = new MongoDbStore({
@@ -61,6 +62,7 @@ app.use('/order', checkAuthenticated, orderRouter);
 app.use('/auth', authRouter);
 app.use('/cart', getUrl, cartRouter);
 app.use('/user', checkAuthenticated, userRouter);
+app.use(errorRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
