@@ -3,33 +3,36 @@ const OrderService = require('../models/services/orderService');
 const CartService = require('../models/services/cartService');
 
 exports.getOrder = async (req, res, next) => {
-  const orders = await OrderService.getOrders(req.user);
-  console.log(orders);
+  const count = await OrderService.countOrders(req.user._id);
+  const lastPage = Math.ceil(count / 3);
+  const orders = await OrderService.getOrders(req.user, req.query.page);
   res.status(200).render('shop/order', {
+    currentPage: req.query.page || 1,
+    lastPage,
+    user: req.user,
+    orders,
     categories: await ProductService.getCategoriesQuantity(),
     brands: await ProductService.getBrands(),
-    user: req.user,
-    orders
   });
 };
 
-exports.postOrder = async (req, res, next) =>{
+exports.postOrder = async (req, res, next) => {
   const userInfor = {
     name: req.body.name,
     address: req.body.address,
-    telephone: req.body.telephone
-  }
-  
+    telephone: req.body.telephone,
+  };
+
   const cart = await CartService.getCartByUserId(req.user);
-  if(cart.orderItems.length==0){
+  if (cart.orderItems.length == 0) {
     res.status(304).send();
     return;
   }
 
-  for(let item in cart.orderItems){
+  for (let item in cart.orderItems) {
     item.isOrdered = true;
   }
-  
+
   const order = await OrderService.createOrder({
     user: req.user,
     orderItems: cart.orderItems,
@@ -38,8 +41,8 @@ exports.postOrder = async (req, res, next) =>{
     phone: req.body.phone,
     orderDate: new Date()
   });
-  
-  cart.orderItems = []
+
+  cart.orderItems = [];
   cart.save();
 
   const orders = await OrderService.getOrders(req.user);
@@ -49,9 +52,8 @@ exports.postOrder = async (req, res, next) =>{
     categories: await ProductService.getCategoriesQuantity(),
     brands: await ProductService.getBrands(),
     user: req.user,
-    orders
+    orders,
   });
 
   // res.redirect('/orders');
-  
-}
+};

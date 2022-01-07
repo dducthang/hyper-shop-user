@@ -1,33 +1,32 @@
-const Product = require("../product");
-const { ObjectId } = require("mongodb");
+const Product = require('../product');
+const { ObjectId } = require('mongodb');
 
-exports.getTopProducts = async (number) => {
-  const products = await Product.find().sort({ _id: 1 }).limit(number);
-  return products;
+exports.getTopProducts = number => {
+  return Product.find().sort({ _id: 1 }).limit(number);
 };
 
-exports.getProductById = async (productId) => {
-  const product = await Product.findOne({ _id: ObjectId(productId) });
-  return product;
+exports.getProductById = productId => {
+  return Product.findOne({ _id: ObjectId(productId) });
 };
-exports.countProducts = (filters) => {
+exports.countProducts = filters => {
   return Product.find(filters).countDocuments();
 };
 
-exports.getProducts = (filters) => {
+exports.getProducts = filters => {
   return Product.find(filters);
 };
-exports.getProduct = (id) => {
+exports.getProduct = id => {
   return Product.findById(id);
 };
 exports.getCategoriesQuantity = async () => {
   const catsQty = await Product.aggregate([
     {
       $group: {
-        _id: "$category",
+        _id: '$category',
         count: { $sum: 1 },
       },
     },
+    { $sort: { count: -1 } },
     { $limit: 5 },
   ]);
   const sum = await Product.countDocuments();
@@ -36,51 +35,56 @@ exports.getCategoriesQuantity = async () => {
   return { catsQty, sum };
 };
 
-exports.getBrands = async () => {
-  return await Product.aggregate([
+exports.getBrands = () => {
+  return Product.aggregate([
     {
       $group: {
-        _id: "$brand",
+        _id: '$brand',
+        count: { $sum: 1 },
       },
     },
+    { $sort: { count: -1 } },
     { $limit: 5 },
   ]);
 };
 
-exports.getClosureTypes = async () => {
-  return await Product.aggregate([
+exports.getClosureTypes = () => {
+  return Product.aggregate([
     {
       $group: {
-        _id: "$closureType",
+        _id: '$closureType',
         count: { $sum: 1 },
       },
     },
+    { $sort: { count: -1 } },
     { $limit: 5 },
   ]);
 };
-exports.getShoesHeights = async () => {
-  return await Product.aggregate([
+exports.getShoesHeights = () => {
+  return Product.aggregate([
     {
       $group: {
-        _id: "$shoesHeight",
+        _id: '$shoesHeight',
         count: { $sum: 1 },
       },
     },
+    { $sort: { count: -1 } },
     { $limit: 5 },
   ]);
 };
-exports.getMaterials = async () => {
-  return await Product.aggregate([
+exports.getMaterials = () => {
+  return Product.aggregate([
     {
       $group: {
-        _id: "$material",
+        _id: '$material',
         count: { $sum: 1 },
       },
     },
+    { $sort: { count: -1 } },
     { $limit: 5 },
   ]);
 };
 
-exports.getRelatedProducts = (filter) => {
+exports.getRelatedProducts = filter => {
   return Product.find(filter).limit(3);
 };
