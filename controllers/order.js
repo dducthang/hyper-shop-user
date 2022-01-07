@@ -34,6 +34,8 @@ exports.postOrder = async (req, res, next) =>{
     user: req.user,
     orderItems: cart.orderItems,
     status: "Pending",
+    address: req.body.address,
+    phone: req.body.phone,
     orderDate: new Date()
   });
   
