@@ -23,8 +23,8 @@ exports.isBoughtProduct = async (userId, productId) => {
 exports.createOrder = properties => {
   return Order.create(properties);
 };
-exports.countOrders = () => {
-  return Order.count();
+exports.countOrders = filters => {
+  return Order.count(filters);
 };
 exports.getOrders = (userId, currentPage = 1) => {
   return Order.find({ user: userId })
