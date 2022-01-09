@@ -28,3 +28,10 @@ exports.deleteItem = async(itemId)=>{
     });
     return deletedItem;
 }
+
+exports.updateIsOrdered = async (itemId)=>{
+    const item = await OrderItem.findOne({_id:itemId});
+    item.isOrdered = true;
+    item.save();
+    return item;
+}

@@ -1,6 +1,7 @@
 const ProductService = require('../models/services/productService'); // nhớ pass categories cho tất cả các view
 const OrderService = require('../models/services/orderService');
 const CartService = require('../models/services/cartService');
+const OrderItemService = require('../models/services/orderItemsService');
 
 exports.getOrder = async (req, res, next) => {
   const count = await OrderService.countOrders({ user: req.user._id });
@@ -30,10 +31,11 @@ exports.postOrder = async (req, res, next) => {
     return;
   }
 
-  for (let item in cart.orderItems) {
-    item.isOrdered = true;
+  //const updatedCart = await CartService.updateIsOrderedItem(req.user);
+  for(let i=0;i<cart.orderItems.length;i++){
+    const updateItem = await OrderItemService.updateIsOrdered(cart.orderItems[i]);
+    console.log(updateItem.isOrdered);
   }
-
   const order = await OrderService.createOrder({
     user: req.user,
     orderItems: cart.orderItems,
@@ -47,7 +49,6 @@ exports.postOrder = async (req, res, next) => {
   cart.save();
 
   const orders = await OrderService.getOrders(req.user);
-  console.log(orders);
 
   res.redirect('/order');
 };
