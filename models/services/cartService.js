@@ -110,3 +110,19 @@ exports.createNewCart = async (userId)=>{
   })
   return newCart;
 }
+
+exports.updateIsOrderedItem = async(userId)=>{
+  const cart = await Cart.findOne({user: userId}).populate({
+    path: "orderItems",
+    model: "OrderItem",
+    populate: {
+      path: "product",
+      model: "Product",
+    },
+  });
+  for(let i=0;i<cart.orderItems.length;i++){
+    cart.orderItems[i].isOrdered = true
+  }
+  cart.save();
+  return cart;
+}
