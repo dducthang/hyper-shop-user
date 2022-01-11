@@ -18,6 +18,8 @@ function initialize(passport) {
       if (!user) {
         return done(null, false, { message: "Wrong email or password" });
       }
+      if (user.isAdmin)
+        return done(null, false, { message: "Wrong email or password" });
       if (user.isLock) {
         return done(null, false, {
           message: "Account is blocked or not yet verified",
