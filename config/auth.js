@@ -1,7 +1,6 @@
 exports.checkAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) return next();
-  console.log(req.session);
-  console.log(req.originalUrl);
+
   req.session.returnTo = req.originalUrl;
   res.redirect('/auth/signin');
 };

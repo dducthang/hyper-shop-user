@@ -7,7 +7,6 @@ exports.getOrder = async (req, res, next) => {
   const count = await OrderService.countOrders({ user: req.user._id });
   const lastPage = Math.ceil(count / 3);
   const orders = await OrderService.getOrders(req.user, req.query.page);
-  console.log(lastPage);
   res.status(200).render('shop/order', {
     currentPage: req.query.page || 1,
     lastPage,
@@ -34,7 +33,6 @@ exports.postOrder = async (req, res, next) => {
   //const updatedCart = await CartService.updateIsOrderedItem(req.user);
   for(let i=0;i<cart.orderItems.length;i++){
     const updateItem = await OrderItemService.updateIsOrdered(cart.orderItems[i]);
-    console.log(updateItem.isOrdered);
   }
   const order = await OrderService.createOrder({
     user: req.user,

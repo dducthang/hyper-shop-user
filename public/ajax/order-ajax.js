@@ -11,7 +11,6 @@ $('.pages').on('click', '.page-link', function (e) {
       data: { page: ordersCurrentPage },
       dataType: 'json',
       success: function (data) {
-        console.log(data);
         let ordersList = '';
         //reverse để hiện thị bình luận mới nhất xuống dưới
         for (order of data.orders) {

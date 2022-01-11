@@ -6,8 +6,8 @@ const userService = require("../models/services/userService");
 
 //cách t làm là theo tutorial 30p gửi tối thứ 4
 function initialize(passport) {
-  const isValidPassword = async (user, password) => {
-    return await bcrypt.compare(password, user.password);
+  const isValidPassword = (user, password) => {
+    return bcrypt.compare(password, user.password);
   };
 
   //dùng trong sign in

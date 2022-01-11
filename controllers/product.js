@@ -76,7 +76,6 @@ exports.getProductDetail = async (req, res, next) => {
     brand: product.brand,
     _id: { $ne: product._id },
   });
-  console.log('---------', relatedProducts, '---------');
   res.status(200).render('shop/productDetail', {
     product: product,
     pageTitle: 'Product detail',

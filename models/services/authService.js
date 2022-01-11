@@ -16,12 +16,12 @@ exports.save = async (newUser) => {
 };
 
 // trả về plain data giúp tăng performance khi chỉ cần truy vấn sự tồn tại của một user
-exports.getUserLean = async (filter) => {
-  return await User.findOne(filter).lean();
+exports.getUserLean =  (filter) => {
+  return User.findOne(filter).lean();
 };
 
-exports.getUser = async (filter) => {
-  return await User.findOne(filter);
+exports.getUser = (filter) => {
+  return User.findOne(filter);
 };
 
 //Dùng dể cập nhật password
