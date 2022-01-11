@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongodb-session')(session);
+const favicon = require('serve-favicon');
 
 require('./db/mongoose.js');
 require('dotenv/config');
@@ -24,6 +25,7 @@ const orderRouter = require('./routes/order');
 const authRouter = require('./routes/auth');
 const cartRouter = require('./routes/cart');
 const userRouter = require('./routes/user');
+const errorRoute = require('./routes/error');
 
 const app = express();
 const store = new MongoDbStore({
@@ -38,6 +40,7 @@ app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); //để parse request về json
 app.use(flash());
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(
   session({
@@ -61,6 +64,7 @@ app.use('/order', checkAuthenticated, orderRouter);
 app.use('/auth', authRouter);
 app.use('/cart', getUrl, cartRouter);
 app.use('/user', checkAuthenticated, userRouter);
+app.use(errorRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

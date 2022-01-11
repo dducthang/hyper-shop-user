@@ -18,7 +18,6 @@ const deleteProductHandler = async event => {
     .then(async response => {
       if (response.status >= 200 && response.status < 300) {
         const item = await response.json();
-        console.log(item);
         let itemRow = null;
         if (!item._id) {
           itemRow = document.getElementById(`row-${item.product._id}`);
@@ -26,7 +25,6 @@ const deleteProductHandler = async event => {
           itemRow = document.getElementById(`row-${item._id}`);
         }
         const total = document.getElementById('total');
-        console.log(item.product.price);
         total.value = total.value - item.product.price * item.quantity;
         itemRow.innerHTML = '';
       } else {
@@ -65,8 +63,6 @@ const quantityOnchangeHandler = async event => {
     .then(async response => {
       if (response.status >= 200 && response.status < 300) {
         const item = await response.json();
-        console.log(item);
-        //console.log(item.product.price);
         let value = parseInt(total.value) + item.product.price * item.quantity;
         totalPerItem.value = item.product.price * item.quantity;
         total.value = value;

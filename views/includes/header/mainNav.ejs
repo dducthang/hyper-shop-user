@@ -35,7 +35,7 @@
     </div>
     <div id="navigation" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
         <li class="nav-item dropdown menu-large">
           <a
             href="/products"
@@ -105,9 +105,19 @@
 </nav>
 <div id="search" class="collapse">
   <div class="container search-form-container">
-    <form role="search" class="ml-auto search-form" id="search-form">
+    <form
+      action="/products"
+      role="search"
+      class="ml-auto search-form"
+      id="search-form"
+    >
       <div class="input-group">
-        <input type="text" placeholder="Search" class="form-control search" />
+        <input
+          type="text"
+          placeholder="Search"
+          class="form-control search"
+          name="name"
+        />
         <div class="input-group-append">
           <button
             type="submit"

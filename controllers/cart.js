@@ -12,7 +12,6 @@ exports.getCart = async (req, res, next) => {
       for (let product of req.session.cart) {
         products.push(product);
       }
-      console.log(products);
       userCart = await cartService.addProductToCart(req.user, products); //cập nhật hàng trong cart ảo vào trong cart trong db
       req.session.cart = null;
     } else {
@@ -35,7 +34,6 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.addToCart = async (req, res, next) => {
-  //console.log(req.body);
   if (req.user) {
     let cart = await cartService.getCartByUserId(req.user);
     if (!cart) {
@@ -60,8 +58,6 @@ exports.addToCart = async (req, res, next) => {
       //nếu session đã có cart thì thêm sản phẩm vào cart
       let checkExisted = false;
       for (let i = 0; i < req.session.cart.length; i++) {
-        console.log(req.session.cart[i].product._id);
-        console.log(req.session.cart[i].product._id.toString());
         if (req.session.cart[i].product._id.toString() === req.body.id) {
           req.session.cart[i].quantity += 1;
           res.status(200).send('Add cart successfully');

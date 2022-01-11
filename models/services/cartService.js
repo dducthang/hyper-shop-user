@@ -50,7 +50,7 @@ exports.addProductToCart = async (user, products) => {
     await cart.save();
   }
 
-  return await Cart.findOne({ user: userId }).populate({
+  return Cart.findOne({ user: userId }).populate({
     path: "orderItems",
     model: "OrderItem",
     populate: {
@@ -91,9 +91,9 @@ exports.removeProductFromCart = async(user, itemId)=>{
     }
 }
 
-exports.getCartByUserId = async (user)=>{
+exports.getCartByUserId = (user)=>{
     const userId = user._id;
-    return await Cart.findOne({ user: userId }).populate({
+    return Cart.findOne({ user: userId }).populate({
         path: "orderItems",
         model: "OrderItem",
         populate: {
@@ -109,4 +109,20 @@ exports.createNewCart = async (userId)=>{
     orderItems:[]
   })
   return newCart;
+}
+
+exports.updateIsOrderedItem = async(userId)=>{
+  const cart = await Cart.findOne({user: userId}).populate({
+    path: "orderItems",
+    model: "OrderItem",
+    populate: {
+      path: "product",
+      model: "Product",
+    },
+  });
+  for(let i=0;i<cart.orderItems.length;i++){
+    cart.orderItems[i].isOrdered = true
+  }
+  cart.save();
+  return cart;
 }

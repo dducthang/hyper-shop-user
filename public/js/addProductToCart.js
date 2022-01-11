@@ -1,5 +1,4 @@
 const addToCartHandler =(event)=>{
-    console.log(event.toElement)
     fetch('http://localhost:3000/cart/add', {
         method: 'post',
         body: JSON.stringify({
