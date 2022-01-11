@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongodb-session')(session);
+const favicon = require('serve-favicon');
 
 require('./db/mongoose.js');
 require('dotenv/config');
@@ -39,6 +40,7 @@ app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); //để parse request về json
 app.use(flash());
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(
   session({

@@ -37,6 +37,7 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
+    "serve-favicon": "^2.5.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
