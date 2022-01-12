@@ -1,8 +1,27 @@
 const Product = require('../product');
+const OrderItem = require('../orderItem');
 const { ObjectId } = require('mongodb');
 
 exports.getTopProducts = number => {
-  return Product.find().sort({ _id: 1 }).limit(number);
+  return OrderItem.aggregate([
+    { $match: { isOrdered: true } },
+    {
+      $group: {
+        _id: '$product',
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { count: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: 'products',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'product',
+      },
+    },
+  ]);
 };
 
 exports.getProductById = productId => {
