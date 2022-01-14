@@ -1,7 +1,7 @@
 const Cart = require("../../models/cart");
 const orderItemsService = require("../../models/services/orderItemsService");
 const cartService = require("../../models/services/cartService");
-const url= "http://localhost:3000/cart"
+const url= "/cart"
 
 exports.postCartApi= async (req, res, next)=>{
     const itemId = req.body.id;

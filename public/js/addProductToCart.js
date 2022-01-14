@@ -1,5 +1,5 @@
 const addToCartHandler =(event)=>{
-    fetch('http://localhost:3000/cart/add', {
+    fetch('/cart/add', {
         method: 'post',
         body: JSON.stringify({
             id:event.target.id

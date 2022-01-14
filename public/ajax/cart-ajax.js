@@ -51,7 +51,6 @@ const quantityOnchangeHandler = async event => {
     `totalPerItem-${itemQuantity.id}`
   );
   const total = document.getElementById('total');
-  total.value = total.value - totalPerItem.value;
 
   await fetch(urlChangeQuantity, {
     method: 'POST',
@@ -63,10 +62,11 @@ const quantityOnchangeHandler = async event => {
     .then(async response => {
       if (response.status >= 200 && response.status < 300) {
         const item = await response.json();
+        total.value = total.value - totalPerItem.value;
         let value = parseInt(total.value) + item.product.price * item.quantity;
         totalPerItem.value = item.product.price * item.quantity;
         total.value = value;
-        itemRow.innerHTML = '';
+        //itemRow.innerHTML = '';
       } else {
         await response.json().then(error => {
           console.log('ERROR: ' + error);
