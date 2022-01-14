@@ -15,7 +15,6 @@ exports.postLoginApi = async (req, res, next) => {
         return next(err);
       }
       isSuccess = true;
-      console.log(req.session.returnTo || '/');
       res.send({ isSuccess, info, ref: req.session.returnTo || '/' });
       delete req.session.returnTo;
       return;

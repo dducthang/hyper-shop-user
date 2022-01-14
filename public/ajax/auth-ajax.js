@@ -2,7 +2,6 @@ $('.log-in').on('click', function (e) {
   e.preventDefault();
   const password = $("input[name='password']").val();
   const email = $("input[name='email']").val();
-  console.log('okkkkkkkkk');
 
   $.ajax({
     url: '/api/login',
