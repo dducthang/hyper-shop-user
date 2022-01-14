@@ -16,16 +16,16 @@ const addToCartHandler =(event)=>{
                 console.log('ERROR: '+error);
             });
         }
-    }).catch(error=>{
-        console.log(error);
-    })
-}
+    }).catch(error => {
+      console.log(error);
+    });
+};
 
 /*
 <script id="scriptAddProductToCart" type="text/javascript">
     const addToCartHandler =(event)=>{
         console.log(event.toElement)
-        fetch('http://localhost:3000/cart/add', {
+        fetch('/cart/add', {
             method: 'post',
             body: JSON.stringify({
                 id:event.target.id

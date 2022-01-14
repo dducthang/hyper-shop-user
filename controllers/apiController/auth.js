@@ -1,7 +1,7 @@
-const passport = require("passport");
+const passport = require('passport');
 exports.postLoginApi = async (req, res, next) => {
   let isSuccess = false;
-  passport.authenticate("local", function (err, user, info) {
+  passport.authenticate('local', function (err, user, info) {
     if (err) {
       return next(err);
     }
@@ -15,7 +15,10 @@ exports.postLoginApi = async (req, res, next) => {
         return next(err);
       }
       isSuccess = true;
-      return res.send({ isSuccess, info });
+      console.log(req.session.returnTo || '/');
+      res.send({ isSuccess, info, ref: req.session.returnTo || '/' });
+      delete req.session.returnTo;
+      return;
     });
   })(req, res, next);
 };
