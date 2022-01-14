@@ -1,24 +1,22 @@
-const addToCartHandler = event => {
-  fetch('/cart/add', {
-    method: 'post',
-    body: JSON.stringify({
-      id: event.target.id,
-    }),
-    headers: {
-      'Content-type': 'application/json',
-    },
-  })
-    .then(response => {
-      if (response.status >= 200 && response.status < 300) {
-        alert('Add product seccessfully');
-        return response.json();
-      } else {
-        response.json().then(error => {
-          console.log('ERROR: ' + error);
-        });
-      }
-    })
-    .catch(error => {
+const addToCartHandler =(event)=>{
+    fetch('/cart/add', {
+        method: 'post',
+        body: JSON.stringify({
+            id:event.target.id
+        }),
+        headers:{
+            'Content-type':'application/json'
+        }
+    }).then(response=>{
+        if (response.status>= 200 && response.status<300){
+            alert('Add product seccessfully');
+            return response.json();
+        }else{
+            response.json().then(error=>{
+                console.log('ERROR: '+error);
+            });
+        }
+    }).catch(error => {
       console.log(error);
     });
 };
