@@ -54,6 +54,19 @@
             </div>
         </div>
     </div>
-<%-include('../includes/footer/foot')%>
+<%-include('../includes/footer/foot')%><script>
+    const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+    confirmPurchaseBtn.addEventListener('click', ()=>{
+        alert('Purchase order successfully');
+    })
+    function onlyNumberKey(evt) {
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+</script>
 </body>
 </html>

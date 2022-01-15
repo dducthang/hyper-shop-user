@@ -27,20 +27,20 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input name="phone" id="phone" type="text" required class="form-control" value="<%=user.phone%>"/>
+                        <input name="phone" id="phone" type="text" required class="form-control" maxlength="10" onkeypress="return onlyNumberKey(event)" value="<%=user.phone%>"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input name="address" id="address" type="text" required class="form-control">
+                        <input name="address" id="address" type="text" required class="form-control" value="<%=user.address%>">
                     </div>
                 </div>
             </div>
         </div>
         <div class="box-footer d-flex justify-content-between"><a href="/cart"
                 class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Back to Basket</a>
-            <button type="submit" class="btn btn-primary">Confirm and Purchase<i
+            <button type="submit" class="btn btn-primary" id="confirmPurchase">Confirm and Purchase<i
                     class="fa fa-chevron-right"></i></button>
         </div>
     </form>
