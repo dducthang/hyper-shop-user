@@ -16,6 +16,9 @@ exports.getCart = async (req, res, next) => {
       req.session.cart = null;
     } else {
       userCart = await cartService.getCartByUserId(req.user); //nếu chưa có cart ảo thì tìm cart thật
+      if(userCart==null){
+        userCart = await cartService.createNewCart(req.user);
+      }
     }
     res.status(200).render('shop/cart', {
       categories: await ProductService.getCategoriesQuantity(),
