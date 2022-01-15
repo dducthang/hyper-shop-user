@@ -57,7 +57,7 @@ app.use(passport.session());
 //sau khi đăng nhập, mọi request handle đều xài đc thằng req.user
 
 //route nào k cần checkAuthenticated (k đăng nhập vẫn vào được) thì thêm middleware getUrl
-app.use('/', shopRouter);
+app.use('/', getUrl, shopRouter);
 app.use('/products', getUrl, productRouter);
 app.use('/api', getUrl, apiRouter);
 app.use('/order', checkAuthenticated, orderRouter);

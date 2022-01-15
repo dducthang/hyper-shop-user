@@ -18,6 +18,6 @@ exports.checkNotAuthenticated = (req, res, next) => {
 //lưu lại url để khi người dùng đăng nhập, chuyển lại về trang cũ
 exports.getUrl = (req, res, next) => {
   const url = req.originalUrl.replace('/api', ''); //nếu người dùng tìm kiếm lọc sản phẩm bằng ajax, cần remove api đi
-  req.session.returnTo = url;
+  if (url != '/login') req.session.returnTo = url;
   next();
 };
