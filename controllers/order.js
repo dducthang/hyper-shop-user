@@ -24,7 +24,10 @@ exports.postOrder = async (req, res, next) => {
     telephone: req.body.telephone,
   };
 
-  const cart = await CartService.getCartByUserId(req.user);
+  let cart = await CartService.getCartByUserId(req.user);
+  if(!cart){
+    cart = await CartService.createNewCart(req.user);
+  }
   if (cart.orderItems.length == 0) {
     res.status(304).send();
     return;
