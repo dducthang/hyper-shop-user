@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   },
   isLock: {
     type: Boolean,
-    default: 0,
+    default: 1,
   },
   isAdmin: {
     type: Boolean,

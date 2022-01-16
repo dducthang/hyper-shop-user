@@ -9,20 +9,15 @@
           class="img-fluid"
         />
       </div>
+      <%for (img of product.images){%>
       <div class="item">
         <img
-          src="https://hyper-shop-admin.herokuapp.com<%=product.image%>"
+          src="https://hyper-shop-admin.herokuapp.com<%=img%>"
           alt=""
           class="img-fluid"
         />
       </div>
-      <div class="item">
-        <img
-          src="https://hyper-shop-admin.herokuapp.com<%=product.image%>"
-          alt=""
-          class="img-fluid"
-        />
-      </div>
+      <%}%>
     </div>
     <div class="ribbon sale">
       <div class="theribbon">Views <%=product.viewCount%></div>
@@ -61,20 +56,15 @@
           class="img-fluid"
         />
       </button>
+      <%for (img of product.images){%>
       <button class="owl-thumb-item">
         <img
-          src="https://hyper-shop-admin.herokuapp.com<%=product.image%>"
+          src="https://hyper-shop-admin.herokuapp.com<%=img%>"
           alt=""
           class="img-fluid"
         />
       </button>
-      <button class="owl-thumb-item">
-        <img
-          src="https://hyper-shop-admin.herokuapp.com<%=product.image%>"
-          alt=""
-          class="img-fluid"
-        />
-      </button>
+      <%}%>
     </div>
   </div>
 </div>
