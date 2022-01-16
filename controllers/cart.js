@@ -9,6 +9,7 @@ exports.getCart = async (req, res, next) => {
     if (req.session.cart) {
       //nếu đã tạo cart ảo trong session trước đó rồi)
       const products = [];
+      
       for (let product of req.session.cart) {
         products.push(product);
       }

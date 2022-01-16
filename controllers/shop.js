@@ -8,5 +8,5 @@ exports.getIndex = async (req, res, next) => {
     user: req.user,
     hotProducts
   });
-  req.session.cart = {};
+  req.session.cart = [];
 };
