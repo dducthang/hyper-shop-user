@@ -1,7 +1,14 @@
 exports.checkAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) return next();
 
-  req.session.returnTo = req.originalUrl;
+  let url = req.originalUrl.replace('/api', ''); //nếu người dùng tìm kiếm lọc sản phẩm bằng ajax, cần remove api đi
+
+  if (url.includes('cart/checkout')) url = '/cart';
+
+  if (!url.includes('/login') && req.method == 'GET') {
+    req.session.returnTo = url;
+  }
+
   res.redirect('/auth/signin');
 };
 
@@ -17,8 +24,13 @@ exports.checkNotAuthenticated = (req, res, next) => {
 
 //lưu lại url để khi người dùng đăng nhập, chuyển lại về trang cũ
 exports.getUrl = (req, res, next) => {
-  console.log(req.originalUrl);
-  const url = req.originalUrl.replace('/api', ''); //nếu người dùng tìm kiếm lọc sản phẩm bằng ajax, cần remove api đi
-  if (url != '/login') req.session.returnTo = url;
+  let url = req.originalUrl.replace('/api', ''); //nếu người dùng tìm kiếm lọc sản phẩm bằng ajax, cần remove api đi
+
+  if (url.includes('cart/checkout')) url = '/cart';
+
+  if (!url.includes('/login') && req.method != 'POST') {
+    req.session.returnTo = url;
+  }
+
   next();
 };
