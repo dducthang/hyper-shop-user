@@ -9,7 +9,7 @@ const addToCartHandler =(event)=>{
         }
     }).then(response=>{
         if (response.status>= 200 && response.status<300){
-            alert('Add product seccessfully');
+            alert('Add product successfully');
             return response.json();
         }else{
             response.json().then(error=>{
