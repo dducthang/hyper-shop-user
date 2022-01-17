@@ -11,6 +11,9 @@ exports.getProducts = (req, res, next) => {
   if (category === 'all categories') {
     category = null; //remove
   }
+  if (category === 'all') {
+    category = null; //remove
+  }
   const name = req.query.name
     ? { $regex: `.*${req.query.name}.*`, $options: 'i' }
     : null;
