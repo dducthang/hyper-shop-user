@@ -6,7 +6,7 @@ exports.getProfile = async (req, res, next) => {
     categories: await ProductService.getCategoriesQuantity(),
     brands: await ProductService.getBrands(),
     profile: req.user,
-    user: true,
+    user: req.user,
   });
 };
 
